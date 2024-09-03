@@ -1,0 +1,571 @@
+{
+    "info": {
+      "name": "PDS API Testing",
+      "description": "Test the API endpoints for Personal Data Sheet (PDS) with personId referencing.",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Personal Info",
+        "item": [
+          {
+            "name": "Create Personal Info",
+            "request": {
+              "method": "POST",
+              "header": [],
+              "body": {
+                "mode": "raw",
+                "raw": "{\"surname\":\"Doe\",\"firstName\":\"John\",\"middleName\":\"M\",\"dateOfBirth\":\"1990-01-01\",\"placeOfBirth\":\"City\",\"sex\":\"Male\",\"citizenship\":\"Citizen\",\"csIdNo\":\"123456789\",\"nameExtension\":\"Jr\",\"maritalStatus\":\"Single\",\"nationality\":\"Nationality\",\"height\":180,\"weight\":75,\"bloodType\":\"O\",\"gsisIdNo\":\"987654321\",\"pagIbigIdNo\":\"111122223333\",\"philHealthNo\":\"444555666\",\"sssNo\":\"777888999\",\"tinNo\":\"000111222\",\"agencyEmployeeNo\":\"123456\",\"permanentAddress\":{\"houseBlockLotNo\":\"123\",\"street\":\"Main St\",\"subdivisionVillage\":\"Subdivision\",\"barangay\":\"Barangay\",\"cityMunicipality\":\"City\",\"province\":\"Province\",\"zipCode\":\"12345\"},\"telephoneNo\":\"1234567890\",\"mobileNo\":\"0987654321\",\"emailAddress\":\"john.doe@example.com\"}"
+              },
+              "url": {
+                "raw": "http://localhost:3000/api/pds/personalInfo",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "personalInfo"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Personal Info",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://localhost:3000/api/pds/personalInfo",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "personalInfo"
+                ]
+              }
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Family Background",
+        "item": [
+          {
+            "name": "Create Family Background",
+            "request": {
+              "method": "POST",
+              "header": [],
+              "body": {
+                "mode": "raw",
+                "raw": "{\"personId\":\"<PERSON_ID>\",\"spouse\":{\"surname\":\"Smith\",\"firstName\":\"Jane\",\"middleName\":\"A\",\"nameExtension\":\"\",\"occupation\":\"Engineer\",\"employerBusinessName\":\"Tech Corp\",\"businessAddress\":\"456 Tech Road\",\"telephoneNo\":\"2345678901\"},\"children\":[{\"name\":\"Child 1\",\"dateOfBirth\":\"2015-05-01\"}],\"father\":{\"surname\":\"Doe\",\"firstName\":\"Michael\",\"middleName\":\"B\",\"nameExtension\":\"\"},\"mother\":{\"maidenName\":{\"surname\":\"Doe\",\"firstName\":\"Mary\",\"middleName\":\"C\"}}"
+              },
+              "url": {
+                "raw": "http://localhost:3000/api/pds/familyBackground",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "familyBackground"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Family Background",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://localhost:3000/api/pds/familyBackground",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "familyBackground"
+                ]
+              }
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Educational Background",
+        "item": [
+          {
+            "name": "Create Educational Background",
+            "request": {
+              "method": "POST",
+              "header": [],
+              "body": {
+                "mode": "raw",
+                "raw": "{\"personId\":\"<PERSON_ID>\",\"level\":\"College\",\"schoolName\":\"University\",\"basicEducationDegreeCourse\":\"Computer Science\",\"periodOfAttendance\":{\"from\":\"2010-06-01\",\"to\":\"2014-05-30\"},\"highestLevelUnitsEarned\":\"120\",\"yearGraduated\":\"2014\",\"honorsReceived\":\"Cum Laude\"}"
+              },
+              "url": {
+                "raw": "http://localhost:3000/api/pds/educationalBackground",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "educationalBackground"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Educational Background",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://localhost:3000/api/pds/educationalBackground",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "educationalBackground"
+                ]
+              }
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Work Experience",
+        "item": [
+          {
+            "name": "Create Work Experience",
+            "request": {
+              "method": "POST",
+              "header": [],
+              "body": {
+                "mode": "raw",
+                "raw": "{\"personId\":\"<PERSON_ID>\",\"duration\":{\"from\":\"2015-06-01\",\"to\":\"2020-12-31\"},\"position\":\"Software Developer\",\"officeUnit\":\"IT Department\",\"immediateSupervisor\":\"Jane Smith\",\"agencyOrganization\":{\"name\":\"Tech Corp\",\"location\":\"Tech City\"},\"accomplishments\":[\"Developed key features for product X\",\"Led team of 5 developers\"],\"summaryOfDuties\":\"Developing and maintaining software applications\",\"monthlySalary\":5000,\"payGrade\":\"A1\",\"statusOfAppointment\":\"Permanent\",\"govService\":false}"
+              },
+              "url": {
+                "raw": "http://localhost:3000/api/pds/workExperience",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "workExperience"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Work Experience",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://localhost:3000/api/pds/workExperience",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "workExperience"
+                ]
+              }
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Civil Service Eligibility",
+        "item": [
+          {
+            "name": "Create Civil Service Eligibility",
+            "request": {
+              "method": "POST",
+              "header": [],
+              "body": {
+                "mode": "raw",
+                "raw": "{\"personId\":\"<PERSON_ID>\",\"careerService\":\"Professional\",\"rating\":\"85\",\"dateOfExamination\":\"2019-07-01\",\"placeOfExamination\":\"City\",\"licenseNumber\":\"123456\",\"validityDate\":\"2024-07-01\"}"
+              },
+              "url": {
+                "raw": "http://localhost:3000/api/pds/civilServiceEligibility",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "civilServiceEligibility"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Civil Service Eligibility",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://localhost:3000/api/pds/civilServiceEligibility",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "civilServiceEligibility"
+                ]
+              }
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Voluntary Work",
+        "item": [
+          {
+            "name": "Create Voluntary Work",
+            "request": {
+              "method": "POST",
+              "header": [],
+              "body": {
+                "mode": "raw",
+                "raw": "{\"personId\":\"<PERSON_ID>\",\"organizationName\":\"Charity Org\",\"organizationAddress\":\"789 Charity Lane\",\"duration\":{\"from\":\"2018-01-01\",\"to\":\"2020-12-31\"},\"numberOfHours\":200,\"positionOrNatureOfWork\":\"Volunteer\"}"
+              },
+              "url": {
+                "raw": "http://localhost:3000/api/pds/voluntaryWork",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "voluntaryWork"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Voluntary Work",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://localhost:3000/api/pds/voluntaryWork",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "voluntaryWork"
+                ]
+              }
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Learning and Development",
+        "item": [
+          {
+            "name": "Create Learning and Development",
+            "request": {
+              "method": "POST",
+              "header": [],
+              "body": {
+                "mode": "raw",
+                "raw": "{\"personId\":\"<PERSON_ID>\",\"title\":\"Leadership Training\",\"duration\":{\"from\":\"2021-01-01\",\"to\":\"2021-06-30\"},\"numberOfHours\":40,\"typeOfLD\":\"Training\",\"conductedBy\":\"Training Institute\"}"
+              },
+              "url": {
+                "raw": "http://localhost:3000/api/pds/learningAndDevelopment",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "learningAndDevelopment"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Learning and Development",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://localhost:3000/api/pds/learningAndDevelopment",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "learningAndDevelopment"
+                ]
+              }
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Other Information",
+        "item": [
+          {
+            "name": "Create Other Information",
+            "request": {
+              "method": "POST",
+              "header": [],
+              "body": {
+                "mode": "raw",
+                "raw": "{\"personId\":\"<PERSON_ID>\",\"specialSkillsAndHobbies\":\"Photography\",\"nonAcademicDistinctions\":\"Best Innovator Award\",\"memberships\":\"Photography Club\"}"
+              },
+              "url": {
+                "raw": "http://localhost:3000/api/pds/otherInformation",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "otherInformation"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Other Information",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://localhost:3000/api/pds/otherInformation",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "otherInformation"
+                ]
+              }
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Relationships and Legal Information",
+        "item": [
+          {
+            "name": "Create Relationships and Legal Information",
+            "request": {
+              "method": "POST",
+              "header": [],
+              "body": {
+                "mode": "raw",
+                "raw": "{\"personId\":\"<PERSON_ID>\",\"relatedToAuthority\":{\"thirdDegree\":\"Yes\",\"fourthDegree\":\"No\",\"details\":\"N/A\"},\"administrativeOffense\":{\"foundGuilty\":\"No\",\"details\":\"N/A\"},\"criminalCharges\":{\"charged\":\"No\",\"details\":\"N/A\",\"dateFiled\":\"N/A\",\"statusOfCase\":\"N/A\"},\"convictions\":{\"convicted\":\"No\",\"details\":\"N/A\"},\"separationFromService\":{\"separated\":\"No\",\"details\":\"N/A\"},\"electionCandidacy\":{\"wasCandidate\":\"No\",\"details\":\"N/A\"},\"electionResignation\":{\"resigned\":\"No\",\"details\":\"N/A\"},\"immigrantStatus\":{\"isImmigrant\":\"No\",\"country\":\"N/A\"},\"specialCategories\":{\"indigenousGroup\":\"No\",\"indigenousDetails\":\"N/A\",\"personWithDisability\":\"No\",\"disabilityIdNo\":\"N/A\",\"soloParent\":\"No\",\"soloParentIdNo\":\"N/A\"}}"
+              },
+              "url": {
+                "raw": "http://localhost:3000/api/pds/relationshipsAndLegalInformation",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "relationshipsAndLegalInformation"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Relationships and Legal Information",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://localhost:3000/api/pds/relationshipsAndLegalInformation",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "relationshipsAndLegalInformation"
+                ]
+              }
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "References",
+        "item": [
+          {
+            "name": "Create References",
+            "request": {
+              "method": "POST",
+              "header": [],
+              "body": {
+                "mode": "raw",
+                "raw": "{\"personId\":\"<PERSON_ID>\",\"name\":\"Reference Name\",\"address\":\"123 Reference St\",\"telNo\":\"3456789012\"}"
+              },
+              "url": {
+                "raw": "http://localhost:3000/api/pds/references",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "references"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get References",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://localhost:3000/api/pds/references",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "references"
+                ]
+              }
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Declaration",
+        "item": [
+          {
+            "name": "Create Declaration",
+            "request": {
+              "method": "POST",
+              "header": [],
+              "body": {
+                "mode": "raw",
+                "raw": "{\"personId\":\"<PERSON_ID>\",\"declarationStatement\":\"I declare that the information provided is true and correct.\",\"governmentId\":{\"type\":\"ID\",\"idNo\":\"123456789\",\"dateOfIssuance\":\"2023-01-01\",\"placeOfIssuance\":\"City\"},\"signature\":\"Signature\",\"dateAccomplished\":\"2023-09-01\",\"rightThumbmark\":\"Thumbmark\",\"administeringOath\":\"Administered by Notary Public\"}"
+              },
+              "url": {
+                "raw": "http://localhost:3000/api/pds/declaration",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "declaration"
+                ]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Declaration",
+            "request": {
+              "method": "GET",
+              "header": [],
+              "url": {
+                "raw": "http://localhost:3000/api/pds/declaration",
+                "protocol": "http",
+                "host": [
+                  "localhost"
+                ],
+                "port": "3000",
+                "path": [
+                  "api",
+                  "pds",
+                  "declaration"
+                ]
+              }
+            },
+            "response": []
+          }
+        ]
+      }
+    ]
+  }
+  
