@@ -1,0 +1,86 @@
+{
+    "info": {
+      "name": "Job Posting API",
+      "_postman_id": "12345678-abcd-1234-efgh-56789abcdefg",
+      "description": "Postman collection for testing Job Posting API endpoints.",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Add Job Posting",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "type": "text"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"no\": 1,\n  \"positionTitle\": \"Software Engineer\",\n  \"plantilliaItemNo\": 101,\n  \"salaryJobGrade\": \"SG 12\",\n  \"monthlySalary\": 35000,\n  \"qualificationStandards\": {\n    \"education\": \"Bachelor's Degree in Computer Science\",\n    \"training\": \"8 hours relevant training\",\n    \"experience\": \"1 year relevant experience\",\n    \"eligibility\": \"Career Service Professional\",\n    \"competency\": \"Problem Solving\"\n  },\n  \"placeOfAssignment\": \"IT Department\",\n  \"isJobPostingOpen\": true\n}"
+          },
+          "url": {
+            "raw": "http://localhost:3000/api/job-postings/add",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3000",
+            "path": ["api", "job-postings", "add"]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Edit Job Posting",
+        "request": {
+          "method": "PUT",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "type": "text"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"positionTitle\": \"Senior Software Engineer\",\n  \"salaryJobGrade\": \"SG 15\",\n  \"monthlySalary\": 45000\n}"
+          },
+          "url": {
+            "raw": "http://localhost:3000/api/job-postings/edit/:id",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3000",
+            "path": ["api", "job-postings", "edit", ":id"]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Set Job Posting Status",
+        "request": {
+          "method": "PATCH",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "type": "text"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"isJobPostingOpen\": false\n}"
+          },
+          "url": {
+            "raw": "http://localhost:3000/api/job-postings/status/:id",
+            "protocol": "http",
+            "host": ["localhost"],
+            "port": "3000",
+            "path": ["api", "job-postings", "status", ":id"]
+          }
+        },
+        "response": []
+      }
+    ]
+  }
+  
