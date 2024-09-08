@@ -3,12 +3,10 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Sidebar from './pages/Sidebar';
 import './App.css';
 import Main from './pages/Main';
-import Personalnfo from './pages/Personalnfo';
+import Personalnfo from './pages/PDS';
 import Eligibility from './pages/Eligibility';
-// import Page3 from './pages/Page3';
-// import Page4 from './pages/Page4';
-import AddPosition from './pages/AddPosition';
-import ManageJob from './pages/ManageJob';
+import AddPosition from './pages/AddJobPosting';
+import ManageJob from './pages/ManageJobPosting';
 import ViewApplicant from './pages/ViewApplicant';
 function App() {
 
@@ -16,13 +14,13 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/Personalnfo/:applicantId" element={<Personalnfo />} />
+        <Route path="/PDS" element={<Personalnfo />} />
         <Route path="/Eligibility" element={<Eligibility />} />
         {/* <Route path="/Page3" element={<Page3 />} />
         <Route path="/Page4" element={<Page4 />} />  */}
         <Route path="/AddPosition" element={<AddPosition />} />
-        <Route path="/ManageJob" element={<ManageJob />} />
-        <Route path="/Applicant/:jobId" element={<ViewApplicant />} />
+        <Route path="/manageJobPosting" element={<ManageJob />} />
+        <Route path="/jobApplicants" element={<ViewApplicant />} />
       </Routes>
     </BrowserRouter>
   );

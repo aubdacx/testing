@@ -1,6 +1,6 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom'; 
-import './Sidebar.css'; 
+import { NavLink } from 'react-router-dom';
+import './Sidebar.css';
 
 function Sidebar() {
   return (
@@ -12,14 +12,14 @@ function Sidebar() {
         Home
       </NavLink>
       <NavLink to="/AddPosition" className="nav-link" activeClassName="active">
-        Add Job Position
+        Post Job Vacancy
       </NavLink>
-      <NavLink to="/ManageJob" className="nav-link" activeClassName="active">
-        Manage Job
+      <NavLink to="/managejobposting" className="nav-link" activeClassName="active">
+        Manage Job Vacancy
       </NavLink>
-      {/* <NavLink to="/ViewApplicant/1" className="nav-link" activeClassName="active">
+      <NavLink to="/jobApplicants/" className="nav-link" activeClassName="active">
         Add Applicants
-      </NavLink> */}
+      </NavLink>
 
       <br /> <br />
       <h5>Employee</h5>

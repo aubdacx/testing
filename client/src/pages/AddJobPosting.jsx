@@ -3,9 +3,9 @@ import Axios from 'axios';
 import Sidebar from './Sidebar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function AddPosition() {
-  const [positionData, setPositionData] = useState({
-    no: '', 
+function AddJobPosting() {
+  const [jobPostData, setJobPostData] = useState({
+    no: '',
     positionTitle: '',
     plantilliaItemNo: '',
     salaryJobGrade: '',
@@ -23,7 +23,7 @@ function AddPosition() {
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setPositionData((prevState) => ({
+    setJobPostData((prevState) => ({
       ...prevState,
       [id]: value,
     }));
@@ -31,7 +31,7 @@ function AddPosition() {
 
   const handleQualificationChange = (e) => {
     const { id, value } = e.target;
-    setPositionData((prevState) => ({
+    setJobPostData((prevState) => ({
       ...prevState,
       qualificationStandards: {
         ...prevState.qualificationStandards,
@@ -42,33 +42,33 @@ function AddPosition() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
-    const jobData = {
-      positionTitle,
-      plantilliaItemNo,
-      salaryJobGrade,
-      monthlySalary,
-      qualificationStandards: {
-        education,
-        training,
-        experience,
-        eligibility,
-        competency,
-      },
-      placeOfAssignment,
-      isJobPostingOpen: true,
-    };
-  
-    Axios.post('/api/job-postings/add', jobData)
+
+    Axios.post('http://localhost:3000/api/job-postings/add', jobPostData) // Update URL to match your backend
       .then((response) => {
         console.log('Job posted successfully', response.data);
+        alert('Job posted successfully!');
+        setJobPostData({
+          no: '',
+          positionTitle: '',
+          plantilliaItemNo: '',
+          salaryJobGrade: '',
+          monthlySalary: '',
+          qualificationStandards: {
+            education: '',
+            training: '',
+            experience: '',
+            eligibility: '',
+            competency: ''
+          },
+          placeOfAssignment: '',
+          isJobPostingOpen: true
+        });
       })
       .catch((error) => {
         console.error('Error posting job', error);
+        alert('Error posting job');
       });
   };
-  
-
   return (
     <div className="d-flex">
       <Sidebar />
@@ -81,7 +81,7 @@ function AddPosition() {
               type="number"
               className="form-control"
               id="no"
-              value={positionData.no}
+              value={jobPostData.no}
               onChange={handleChange}
             />
           </div>
@@ -91,7 +91,7 @@ function AddPosition() {
               type="text"
               className="form-control"
               id="positionTitle"
-              value={positionData.positionTitle}
+              value={jobPostData.positionTitle}
               onChange={handleChange}
             />
           </div>
@@ -101,7 +101,7 @@ function AddPosition() {
               type="number"
               className="form-control"
               id="plantilliaItemNo"
-              value={positionData.plantilliaItemNo}
+              value={jobPostData.plantilliaItemNo}
               onChange={handleChange}
             />
           </div>
@@ -111,7 +111,7 @@ function AddPosition() {
               type="text"
               className="form-control"
               id="salaryJobGrade"
-              value={positionData.salaryJobGrade}
+              value={jobPostData.salaryJobGrade}
               onChange={handleChange}
             />
           </div>
@@ -121,7 +121,7 @@ function AddPosition() {
               type="number"
               className="form-control"
               id="monthlySalary"
-              value={positionData.monthlySalary}
+              value={jobPostData.monthlySalary}
               onChange={handleChange}
             />
           </div>
@@ -135,7 +135,7 @@ function AddPosition() {
                   type="text"
                   className="form-control"
                   id="education"
-                  value={positionData.qualificationStandards.education}
+                  value={jobPostData.qualificationStandards.education}
                   onChange={handleQualificationChange}
                 />
               </div>
@@ -145,7 +145,7 @@ function AddPosition() {
                   type="text"
                   className="form-control"
                   id="training"
-                  value={positionData.qualificationStandards.training}
+                  value={jobPostData.qualificationStandards.training}
                   onChange={handleQualificationChange}
                 />
               </div>
@@ -155,7 +155,7 @@ function AddPosition() {
                   type="text"
                   className="form-control"
                   id="experience"
-                  value={positionData.qualificationStandards.experience}
+                  value={jobPostData.qualificationStandards.experience}
                   onChange={handleQualificationChange}
                 />
               </div>
@@ -165,7 +165,7 @@ function AddPosition() {
                   type="text"
                   className="form-control"
                   id="eligibility"
-                  value={positionData.qualificationStandards.eligibility}
+                  value={jobPostData.qualificationStandards.eligibility}
                   onChange={handleQualificationChange}
                 />
               </div>
@@ -175,7 +175,7 @@ function AddPosition() {
                   type="text"
                   className="form-control"
                   id="competency"
-                  value={positionData.qualificationStandards.competency}
+                  value={jobPostData.qualificationStandards.competency}
                   onChange={handleQualificationChange}
                 />
               </div>
@@ -188,7 +188,7 @@ function AddPosition() {
               type="text"
               className="form-control"
               id="placeOfAssignment"
-              value={positionData.placeOfAssignment}
+              value={jobPostData.placeOfAssignment}
               onChange={handleChange}
             />
           </div>
@@ -199,4 +199,4 @@ function AddPosition() {
   );
 }
 
-export default AddPosition;
+export default AddJobPosting;

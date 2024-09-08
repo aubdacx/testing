@@ -1,5 +1,6 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from "react-router-dom";
 import SignatureCanvas from 'react-signature-canvas';
 import Sidebar from './Sidebar';
 
@@ -12,72 +13,68 @@ function Personalnfo() {
     spouseSurname: '', spouseFirstName: '', spouseMiddleName: '', spouseOccupation: '', spouseEmployer: '', spouseBusinessAddress: '',
     spouseTelephone: '', children: [{ name: '', dateOfBirth: '' }], fatherSurname: '', fatherFirstName: '', fatherMiddleName: '',
     motherSurname: '', motherFirstName: '', motherMiddleName: '', education: [{ level: '', schoolName: '', degree: '', attendanceFrom: '', attendanceTo: '', unitsEarned: '', yearGraduated: '', honors: '' }],
-    signature: '', date: '',   province: '', cityMunicipality: '',barangay: '',
-  });
-  
-const [municipalities, setMunicipalities] = useState([]);
-const [barangays, setBarangays] = useState([]);
-
-const data = {
-  "Batanes": {
-    " Basco": [" Ihubok I", " Ihubok II", " San Antonio", " San Joaquin", " Chanarian", " Kayhuvokan",  ],
-    "Itbayat":  [ ],
-    " Ivana":  [ ],
-    "Mahatao": [],
-    "Sabtang":  [],
-    "Uyugan":  []
-  },
-  "Cagayan": {
-    "Tuguegarao City": ["Annafunan East ", "Atulayan Norte ","Annafunan East ", "Bagay ", "Centro 1  ", " Centro 4", "Centro 5 ", "Centro 6 ", "Centro 7  ", " Centro 8", "Centro 9 "],
-    "Alcala": ["Alinunu", "Bagu "]
-
-  },
-   "Isabela": {
-    "Cauayan": [" Alicaocao", "Alinam "],
-    "Ilagan ": ["Cabeseria 27", "Aggasian "],
-    "Santiago ": ["Abra ", "Ambalatungan "]
-  },
-  "Nueva Vizcaya": {
-    "Ambaguio": [],
-    "Aritao ": ["Banganan", "Beti ","Bone North", "Bone South ","Calitlitan", "Comon ", "Cutar", "Darapidap ","Kirang", "Nagcuartelan "],
-    "Bagabag": [""],
-    "Bambang ": [""],
-    "Bayombong": [],
-    "Diadi ": [],
-    "Dupax del Norte ": [],
-    "Dupax del Sur": [],
-    "Kasibu ": [],
-    "Kayapa": []
-  },
-  "Quirino": {
-    "": [],
-    "": []
-  }
-};
-
-const handleProvinceChange = (e) => {
-  const selectedProvince = e.target.value;
-  setFormData({
-    ...formData,
-    province: selectedProvince,
-    cityMunicipality: '',
-    barangay: ''
+    signature: '', date: '', province: '', cityMunicipality: '', barangay: '',
   });
 
-  setMunicipalities(Object.keys(data[selectedProvince] || {}));
-  setBarangays([]);
-};
+  const [municipalities, setMunicipalities] = useState([]);
+  const [barangays, setBarangays] = useState([]);
 
-const handleMunicipalityChange = (e) => {
-  const selectedMunicipality = e.target.value;
-  setFormData({
-    ...formData,
-    cityMunicipality: selectedMunicipality,
-    barangay: ''
-  });
+  const data = {
+    "Batanes": {
+      " Basco": [" Ihubok I", " Ihubok II", " San Antonio", " San Joaquin", " Chanarian", " Kayhuvokan",],
+      "Itbayat": [],
+      " Ivana": [],
+      "Mahatao": [],
+      "Sabtang": [],
+      "Uyugan": []
+    },
+    "Cagayan": {
+      "Tuguegarao City": ["Annafunan East ", "Atulayan Norte ", "Annafunan East ", "Bagay ", "Centro 1  ", " Centro 4", "Centro 5 ", "Centro 6 ", "Centro 7  ", " Centro 8", "Centro 9 "],
+      "Alcala": ["Alinunu", "Bagu "]
 
-  setBarangays(data[formData.province][selectedMunicipality] || []);
-};
+    },
+    "Isabela": {
+      "Cauayan": [" Alicaocao", "Alinam "],
+      "Ilagan ": ["Cabeseria 27", "Aggasian "],
+      "Santiago ": ["Abra ", "Ambalatungan "]
+    },
+    "Nueva Vizcaya": {
+      "Ambaguio": [],
+      "Aritao ": ["Banganan", "Beti ", "Bone North", "Bone South ", "Calitlitan", "Comon ", "Cutar", "Darapidap ", "Kirang", "Nagcuartelan "],
+      "Bagabag": [""],
+      "Bambang ": [""],
+      "Bayombong": [],
+      "Diadi ": [],
+      "Dupax del Norte ": [],
+      "Dupax del Sur": ["Domang", "Dopaj","Balzain",],
+      "Kasibu ": [],
+      "Kayapa": []
+    },
+  };
+
+  const handleProvinceChange = (e) => {
+    const selectedProvince = e.target.value;
+    setFormData({
+      ...formData,
+      province: selectedProvince,
+      cityMunicipality: '',
+      barangay: ''
+    });
+
+    setMunicipalities(Object.keys(data[selectedProvince] || {}));
+    setBarangays([]);
+  };
+
+  const handleMunicipalityChange = (e) => {
+    const selectedMunicipality = e.target.value;
+    setFormData({
+      ...formData,
+      cityMunicipality: selectedMunicipality,
+      barangay: ''
+    });
+
+    setBarangays(data[formData.province][selectedMunicipality] || []);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -124,7 +121,7 @@ const handleMunicipalityChange = (e) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form Data Submitted:', formData);
-  };  
+  };
 
   const sigCanvas = useRef(null);
 
@@ -137,35 +134,35 @@ const handleMunicipalityChange = (e) => {
     setFormData({ ...formData, signature: sigCanvas.current.toDataURL() });
   };
 
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const handleNextClick = () => {
-    navigate('/Eligibility'); 
+    navigate('/Eligibility');
   };
   return (
     <div className="container mt-5">
       {/* <p><i><b>CS Form No. 212
         <br/>Revised 2017</b></i></p> */}
-   <h2 className="text-center"><b> PERSONAL DATA SHEET </b></h2>
-      <p> <b> <i> WARNING: Any misrepresentation made in the Personal Data Sheet and the Work Experience 
+      <h2 className="text-center"><b> PERSONAL DATA SHEET </b></h2>
+      <p> <b> <i> WARNING: Any misrepresentation made in the Personal Data Sheet and the Work Experience
         Sheet shall cause the filling of admistrative/criminal case/s against the person concerned.
-        <br/> READ THE ATTACHED GUIDE TO FILLING OUT THE PERSONAL DATA SHEET (PDS) BEFORE ACCOMPLISING THE PDS FORM. </i></b> </p>
-   
-   {/* Personal Info */}
+        <br /> READ THE ATTACHED GUIDE TO FILLING OUT THE PERSONAL DATA SHEET (PDS) BEFORE ACCOMPLISING THE PDS FORM. </i></b> </p>
+
+      {/* Personal Info */}
       <div className="card p-4 mb-4">
         <form onSubmit={handleSubmit}>
           <div className="row">
-          <h4> <i> I. PERSONAL INFORMATION</i></h4>
+            <h4> <i> I. PERSONAL INFORMATION</i></h4>
             <div className="col-md-4 mb-3">
               <label>Surname</label>
-              <input   type="text" className="form-control"  name="surname" value={formData.surname} onChange={handleChange}/>
+              <input type="text" className="form-control" name="surname" value={formData.surname} onChange={handleChange} />
             </div>
             <div className="col-md-4 mb-3">
               <label>First Name</label>
-              <input type="text" className="form-control"name="firstName" value={formData.firstName} onChange={handleChange}/>
+              <input type="text" className="form-control" name="firstName" value={formData.firstName} onChange={handleChange} />
             </div>
             <div className="col-md-4 mb-3">
               <label>Middle Name</label>
-              <input type="text"  className="form-control" name="middleName" value={formData.middleName}onChange={handleChange} />
+              <input type="text" className="form-control" name="middleName" value={formData.middleName} onChange={handleChange} />
             </div>
             <div className="col-md-4 mb-3">
               <label>Name Extension (e.g., Jr., Sr.)</label>
@@ -230,7 +227,7 @@ const handleMunicipalityChange = (e) => {
                 <option value="Solo Parent">Solo Parent</option>
               </select>
             </div>
-    
+
             <div className="col-md-4 mb-3">
               <label>Height (cm)</label>
               <input
@@ -264,74 +261,74 @@ const handleMunicipalityChange = (e) => {
               />
             </div>
             <div>
-         
-          </div>
-          <div className="row">
-          <div className="col-md-4 mb-3">
-              <label>GSIS ID No.</label>
-              <input
-                type="text"
-                className="form-control"
-                name="gsisID"
-                value={formData.gsisID}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="col-md-4 mb-3">
-              <label>PAG-IBIG ID No.</label>
-              <input
-                type="text"
-                className="form-control"
-                name="pagibigID"
-                value={formData.pagibigID}
-                onChange={handleChange}
-              />
-            </div>
-            <div className="col-md-4 mb-3">
-              <label>PhilHealth No.</label>
-              <input
-                type="text"
-                className="form-control"
-                name="philhealthID"
-                value={formData.philhealthID}
-                onChange={handleChange}
-              />
-            </div>
 
-            <div className="col-md-4 mb-3">
-              <label>SSS No.</label>
-              <input
-                type="text"
-                className="form-control"
-                name="sssID"
-                value={formData.sssID}
-                onChange={handleChange}
-              />
             </div>
-            <div className="col-md-4 mb-3">
-              <label>Agency Employee No.</label>
-              <input
-                type="text"
-                className="form-control"
-                name="agencyEmployeeNo"
-                value={formData.agencyEmployeeNo}
-                onChange={handleChange}
-              />
+            <div className="row">
+              <div className="col-md-4 mb-3">
+                <label>GSIS ID No.</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="gsisID"
+                  value={formData.gsisID}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="col-md-4 mb-3">
+                <label>PAG-IBIG ID No.</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="pagibigID"
+                  value={formData.pagibigID}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="col-md-4 mb-3">
+                <label>PhilHealth No.</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="philhealthID"
+                  value={formData.philhealthID}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="col-md-4 mb-3">
+                <label>SSS No.</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="sssID"
+                  value={formData.sssID}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="col-md-4 mb-3">
+                <label>Agency Employee No.</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="agencyEmployeeNo"
+                  value={formData.agencyEmployeeNo}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="col-md-4 mb-3">
+                <label>TIN No.</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="tinID"
+                  value={formData.tinID}
+                  onChange={handleChange}
+                />
+              </div>
             </div>
-            <div className="col-md-4 mb-3">
-              <label>TIN No.</label>
-              <input
-                type="text"
-                className="form-control"
-                name="tinID"
-                value={formData.tinID}
-                onChange={handleChange}
-              />
-            </div>
-          </div>
-          <div className="row">
-           
-          
+            <div className="row">
+
+
             </div>
             <div className="col-md-4 mb-3">
               <label>Citizenship</label>
@@ -374,8 +371,8 @@ const handleMunicipalityChange = (e) => {
               </div>
             </div>
           )}
-         <div className="row">
-         <h5>Residential Address</h5>
+          <div className="row">
+            <h5>Residential Address</h5>
             <div className="col-md-4 mb-3">
               <label>House/Block/Lot No.</label>
               <input
@@ -478,8 +475,8 @@ const handleMunicipalityChange = (e) => {
               />
             </div>
           </div>
-        < div  className="row">
-          <h5>Permanent Address</h5>
+          < div className="row">
+            <h5>Permanent Address</h5>
             <div className="col-md-4 mb-3">
               <label>House/Block/Lot No.</label>
               <input
@@ -769,13 +766,13 @@ const handleMunicipalityChange = (e) => {
                 onChange={handleChange}
               />
             </div>
-            
+
           </div>
 
           <div className="row">
-          <div className="col-md-4 mb-3">
+            <div className="col-md-4 mb-3">
               <label>25. Mother's Maiden Name</label>
-              <input  type="text" className="form-control"name="motherMaide"
+              <input type="text" className="form-control" name="motherMaide"
                 value={formData.motherMaiden} onChange={handleChange}
               />
             </div>
@@ -816,15 +813,15 @@ const handleMunicipalityChange = (e) => {
                 onChange={handleChange}
               />
             </div>
-            
+
           </div>
-         
+
           <h4><i> III. EDUCATIONAL BACKGROUND</i></h4>
           {formData.education.map((education, index) => (
             <div key={index} className="row mb-3">
 
               <div className="col-md-4">
-              <label> 26. Level</label>
+                <label> 26. Level</label>
                 <select
                   className="form-select"
                   name="level"
@@ -840,11 +837,11 @@ const handleMunicipalityChange = (e) => {
                 </select>
               </div>
 
-            
+
               <div className="col-md-4">
-              <label> School Name (Write the full)</label>
+                <label> School Name (Write the full)</label>
                 <input
-                
+
                   type="text"
                   className="form-control"
                   name="schoolName"
@@ -854,7 +851,7 @@ const handleMunicipalityChange = (e) => {
               </div>
 
               <div className="col-md-4">
-              <label> Basic Education/Degree/Course (Write the full)</label>
+                <label> Basic Education/Degree/Course (Write the full)</label>
                 <input
                   type="text"
                   className="form-control"
@@ -888,7 +885,7 @@ const handleMunicipalityChange = (e) => {
               </div>
 
               <div className="col-md-4 mt-3">
-              <label> Highest Level/Units Earned (if not graduated)</label>
+                <label> Highest Level/Units Earned (if not graduated)</label>
                 <input
                   type="text"
                   className="form-control"
@@ -899,7 +896,7 @@ const handleMunicipalityChange = (e) => {
               </div>
 
               <div className="col-md-4 mt-3">
-              <label> Year Graduate</label>
+                <label> Year Graduate</label>
                 <input
                   type="text"
                   className="form-control"
@@ -910,7 +907,7 @@ const handleMunicipalityChange = (e) => {
               </div>
 
               <div className="col-md-4 mt-3">
-              <label> Scholarship/Academic Honors</label>
+                <label> Scholarship/Academic Honors</label>
                 <input
                   type="text"
                   className="form-control"
@@ -923,60 +920,60 @@ const handleMunicipalityChange = (e) => {
           ))}
 
           <button type="button" className="btn btn-secondary mb-4" onClick={handleAddEducation}>Add Education</button>
-          
+
           <div className="row">
-          
+
           </div>
-          
-            {/* Signature and Date */}
-            <div className="row mt-4">
-              <div className="col-md-6 mb-4">
-                <label className="form-label">Signature</label>
-                <div className="border border-secondary rounded p-2">
-                  <SignatureCanvas
-                    ref={sigCanvas}
-                    penColor="black"
-                    canvasProps={{
-                      width: 500,
-                      height: 80,
-                      className: 'signature-canvas'
-                    }}
-                    onEnd={handleSignatureEnd}
-                  />
-                </div>
-                <button
-                  type="button"
-                  className="btn btn-danger mt-2"
-                  onClick={handleClear}
-                >
-                  Clear Signature
-                </button>
-              </div>
-              <div className="col-md-6 mb-4">
-                <label className="form-label">Date</label>
-                <input
-                  type="date"
-                  className="form-control"
-                  name="date"
-                  value={formData.date}
-                  onChange={handleChange}
+
+          {/* Signature and Date */}
+          <div className="row mt-4">
+            <div className="col-md-6 mb-4">
+              <label className="form-label">Signature</label>
+              <div className="border border-secondary rounded p-2">
+                <SignatureCanvas
+                  ref={sigCanvas}
+                  penColor="black"
+                  canvasProps={{
+                    width: 500,
+                    height: 80,
+                    className: 'signature-canvas'
+                  }}
+                  onEnd={handleSignatureEnd}
                 />
               </div>
+              <button
+                type="button"
+                className="btn btn-danger mt-2"
+                onClick={handleClear}
+              >
+                Clear Signature
+              </button>
             </div>
-            <div className="d-flex justify-content-end">
-            <button 
-                        type="button" 
-                        className="btn btn-primary" 
-                        onClick={handleNextClick} 
-                    >
-                        Next
-                    </button>
+            <div className="col-md-6 mb-4">
+              <label className="form-label">Date</label>
+              <input
+                type="date"
+                className="form-control"
+                name="date"
+                value={formData.date}
+                onChange={handleChange}
+              />
             </div>
-            
+          </div>
+          <div className="d-flex justify-content-end">
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleNextClick}
+            >
+              Next
+            </button>
+          </div>
 
-                    </form>
-                  </div>
-                </div>
-              );
-            }
+
+        </form>
+      </div>
+    </div>
+  );
+}
 export default Personalnfo;
