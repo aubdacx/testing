@@ -1,73 +1,60 @@
-import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import Axios from 'axios';
 import Sidebar from './Sidebar';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-const dummyApplicants = {
-  1: [
-    { id: 1, name: 'Emjay', email: 'emjay.com', appliedAt: '2024-09-01' },
-    { id: 2, name: 'Kerty', email: 'kert.com', appliedAt: '2024-09-02' },
-  ],
-  2: [
-    { id: 3, name: 'aub', email: 'aub@gmail.com', appliedAt: '2024-09-03' },
-    { id: 4, name: 'emjay', email: 'emjay.com', appliedAt: '2024-09-04' },
-  ],
-};
 
 function ViewApplicant() {
   const { jobId } = useParams();
-  const navigate = useNavigate();
-  const applicants = dummyApplicants[jobId] || [];
+  const [applicants, setApplicants] = useState([]);
 
-  const handleDelete = (applicantId) => {
-    console.log(`Deleting applicant with ID ${applicantId}`);
-  };
-
-  const handleHire = (applicantId) => {
-    console.log(`Hiring applicant with ID ${applicantId}`);
-    navigate(`/Personalnfo/${applicantId}`);
-  };
+  useEffect(() => {
+    Axios.get(`/api/job-postings/${jobId}/applicants`)
+      .then((response) => {
+        if (Array.isArray(response.data)) {
+          setApplicants(response.data);
+        } else {
+          console.error('Expected an array, got:', response.data);
+          setApplicants([]); 
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching applicants', error);
+      });
+  }, [jobId]);
 
   return (
     <div className="d-flex">
       <Sidebar />
       <div className="content flex-grow-1 p-4">
-        <div className="container">
-          <h4 className="mb-4">Job Applicants</h4>
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Applied At</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {applicants.map(applicant => (
-                <tr key={applicant.id}>
+        <h4 className="mb-4">Applicants</h4>
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Experience</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Array.isArray(applicants) && applicants.length > 0 ? (
+              applicants.map((applicant) => (
+                <tr key={applicant._id}>
                   <td>{applicant.name}</td>
                   <td>{applicant.email}</td>
-                  <td>{applicant.appliedAt}</td>
+                  <td>{applicant.experience}</td>
                   <td>
-                    <button
-                      className="btn btn-danger me-2"
-                      onClick={() => handleDelete(applicant.id)}
-                    >
-                      Delete
-                    </button>
-                    <button
-                      className="btn btn-success"
-                      onClick={() => handleHire(applicant.id)}
-                    >
-                      Hire
-                    </button>
+                    <button className="btn btn-primary">View Resume</button>
                   </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="4">No applicants found.</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );

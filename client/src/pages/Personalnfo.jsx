@@ -137,20 +137,19 @@ const handleMunicipalityChange = (e) => {
     setFormData({ ...formData, signature: sigCanvas.current.toDataURL() });
   };
 
-  const navigate = useNavigate(); // Initialize useNavigate
-
+  const navigate = useNavigate(); 
   const handleNextClick = () => {
-    navigate('/ManageJob'); // Navigate to the Education page
+    navigate('/Eligibility'); 
   };
   return (
     <div className="container mt-5">
       {/* <p><i><b>CS Form No. 212
         <br/>Revised 2017</b></i></p> */}
    <h2 className="text-center"><b> PERSONAL DATA SHEET </b></h2>
-      {/* <p> <b> <i> WARNING: Any misrepresentation made in the Personal Data Sheet and the Work Experience 
+      <p> <b> <i> WARNING: Any misrepresentation made in the Personal Data Sheet and the Work Experience 
         Sheet shall cause the filling of admistrative/criminal case/s against the person concerned.
         <br/> READ THE ATTACHED GUIDE TO FILLING OUT THE PERSONAL DATA SHEET (PDS) BEFORE ACCOMPLISING THE PDS FORM. </i></b> </p>
-    */}
+   
    {/* Personal Info */}
       <div className="card p-4 mb-4">
         <form onSubmit={handleSubmit}>
@@ -617,7 +616,6 @@ const handleMunicipalityChange = (e) => {
             </div>
           </div>
 
-      {/* Family Background */}
           <h4><i> II. FAMILY BACKGROUND</i></h4>
           <div className="row">
             <div className="col-md-4 mb-3">
@@ -821,7 +819,6 @@ const handleMunicipalityChange = (e) => {
             
           </div>
          
-         {/* Educational Background */}
           <h4><i> III. EDUCATIONAL BACKGROUND</i></h4>
           {formData.education.map((education, index) => (
             <div key={index} className="row mb-3">
@@ -970,7 +967,7 @@ const handleMunicipalityChange = (e) => {
             <button 
                         type="button" 
                         className="btn btn-primary" 
-                        onClick={handleNextClick} // Set the click handler
+                        onClick={handleNextClick} 
                     >
                         Next
                     </button>

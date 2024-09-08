@@ -17,9 +17,9 @@ function Sidebar() {
       <NavLink to="/ManageJob" className="nav-link" activeClassName="active">
         Manage Job
       </NavLink>
-      <NavLink to="/ViewApplicant/1" className="nav-link" activeClassName="active">
+      {/* <NavLink to="/ViewApplicant/1" className="nav-link" activeClassName="active">
         Add Applicants
-      </NavLink>
+      </NavLink> */}
 
       <br /> <br />
       <h5>Employee</h5>
