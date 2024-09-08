@@ -18,8 +18,8 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/Personalnfo/:applicantId" element={<Personalnfo />} />
         <Route path="/Eligibility" element={<Eligibility />} />
-        <Route path="/Page3" element={<Page3 />} />
-        <Route path="/Page4" element={<Page4 />} /> 
+        {/* <Route path="/Page3" element={<Page3 />} />
+        <Route path="/Page4" element={<Page4 />} />  */}
         <Route path="/AddPosition" element={<AddPosition />} />
         <Route path="/ManageJob" element={<ManageJob />} />
         <Route path="/Applicant/:jobId" element={<ViewApplicant />} />
