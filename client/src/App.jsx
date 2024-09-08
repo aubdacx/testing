@@ -10,6 +10,7 @@ import Eligibility from './pages/Eligibility';
 import AddPosition from './pages/AddPosition';
 import ManageJob from './pages/ManageJob';
 import ViewApplicant from './pages/ViewApplicant';
+import Login from './pages/Login';
 function App() {
 
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/AddPosition" element={<AddPosition />} />
         <Route path="/ManageJob" element={<ManageJob />} />
         <Route path="/Applicant/:jobId" element={<ViewApplicant />} />
+        <Route path="/Login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   );

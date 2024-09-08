@@ -1,0 +1,45 @@
+/* src/components/Navbar.css */
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #F0F4F8 0%, #E8F1F5 50%, #E3EBF0 100%);
+    color: #000;
+    padding: 10px 20px;
+  }
+  
+  .navbar-title {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .navbar-right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .notification-btn {
+    background: none;
+    border: none;
+    color: #000;
+    font-size: 20px;
+    margin-right: 20px;
+    cursor: pointer;
+  }
+  
+  .profile {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profile-icon {
+    font-size: 24px;
+    margin-right: 8px;
+  }
+  
+  .username {
+    font-size: 16px;
+    color: #000;
+  }
+  
