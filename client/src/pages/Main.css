@@ -1,0 +1,49 @@
+.content {
+    background: linear-gradient(135deg, #F0F4F8 0%, #E8F1F5 50%, #E3EBF0 100%);
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .top-header {
+    background: linear-gradient(135deg, #F0F4F8 0%, #E8F1F5 50%, #E3EBF0 100%);
+    color: #004D40;
+    border-bottom: 1px solid #ddd;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .welcome-text h5 {
+    color: #00695C;
+    font-weight: 500;
+  }
+  
+  .welcome-text h1 {
+    color: #1B5E20;
+    font-size: 2.5rem;
+    font-weight: 600;
+  }
+  
+  .profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  
+  .profile span {
+    color: #004D40;
+    font-weight: bold;
+    font-size: 1.1rem;
+  }
+  
+  .bi {
+    font-size: 1.5rem;
+    color: #004D40;
+    cursor: pointer;
+  }
+  
+  .bi:hover {
+    color: #00796B;
+  }
+  
