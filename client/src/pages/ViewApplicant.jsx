@@ -25,7 +25,7 @@ function ViewApplicant() {
 
   const handleHire = (applicantId) => {
     console.log(`Hiring applicant with ID ${applicantId}`);
-    navigate(`/Personal/${applicantId}`);
+    navigate(`/Personalnfo/${applicantId}`);
   };
 
   return (

@@ -137,7 +137,11 @@ const handleMunicipalityChange = (e) => {
     setFormData({ ...formData, signature: sigCanvas.current.toDataURL() });
   };
 
+  const navigate = useNavigate(); // Initialize useNavigate
 
+  const handleNextClick = () => {
+    navigate('/ManageJob'); // Navigate to the Education page
+  };
   return (
     <div className="container mt-5">
       {/* <p><i><b>CS Form No. 212
@@ -963,9 +967,13 @@ const handleMunicipalityChange = (e) => {
               </div>
             </div>
             <div className="d-flex justify-content-end">
-              <button type="submit" className="btn btn-primary">
-                Submit
-              </button>
+            <button 
+                        type="button" 
+                        className="btn btn-primary" 
+                        onClick={handleNextClick} // Set the click handler
+                    >
+                        Next
+                    </button>
             </div>
             
 
