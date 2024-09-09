@@ -8,6 +8,7 @@ import Eligibility from './pages/Eligibility';
 import AddPosition from './pages/AddJobPosting';
 import ManageJob from './pages/ManageJobPosting';
 import ViewApplicant from './pages/ViewApplicant';
+import Login from './pages/Login';
 function App() {
 
   return (
@@ -19,8 +20,9 @@ function App() {
         {/* <Route path="/Page3" element={<Page3 />} />
         <Route path="/Page4" element={<Page4 />} />  */}
         <Route path="/AddPosition" element={<AddPosition />} />
-        <Route path="/manageJobPosting" element={<ManageJob />} />
-        <Route path="/jobApplicants" element={<ViewApplicant />} />
+        <Route path="/ManageJob" element={<ManageJob />} />
+        <Route path="/Applicant/:jobId" element={<ViewApplicant />} />
+        <Route path="/Login" element={<Login />} />
       </Routes>
     </BrowserRouter>
   );

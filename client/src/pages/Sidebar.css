@@ -1,44 +1,70 @@
-
 .sidebar {
-    width: 250px;
-    background: linear-gradient(135deg, #EFF7F9 0%, #DDE8EB 50%, #C4D7DB 100%);
-    height: 100vh;
-    padding: 20px;
-    font-family: 'Poppins', sans-serif; 
-    color: #004D40;
-    
-  }
+  width: 250px;
+  background: linear-gradient(135deg, #EFF7F9 0%, #DDE8EB 50%, #C4D7DB 100%);
+  min-height: 100vh; /* Use min-height instead of auto to ensure it fills the screen */
+  padding: 20px;
+  font-family: 'Poppins', sans-serif;
+  color: #004D40;
+}
   
-  .nav-link {
-    color: #004D40; 
-    font-size: 16px;
-    font-weight: 500;
-    margin-bottom: 15px;
-    display: block;
-    text-decoration: none;
-  }
-  
-  .nav-link:hover {
-    background-color: rgba(0, 77, 64, 0.1);
-    border-radius: 10px;
-    padding: 8px;
-    color: #00695C;
-  }
-  
-  .nav-link.active {
-    background-color: #B2DFDB; 
-    border-radius: 10px;
-    padding: 8px;
-    color: #004D40;
-    font-weight: 600;
-  }
-  
-  .sidebar h5 {
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-    color: #004D40;
-    letter-spacing: 1px;
-  }
-  
+
+/* Make h5 clickable with a pointer */
+.clickable-h5 {
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
+  padding: 5px; /* Add padding for better hover effect visibility */
+}
+
+/* Hover effect for h5 */
+.clickable-h5:hover {
+  color: #00695C; /* Change text color on hover */
+  border-radius: 5px; /* Rounded corners on hover */
+}
+
+/* Links container that appears under h5 */
+.links-container {
+  display: flex;
+  flex-direction: column;
+    padding-left: 15px; /* Adjust left padding to create clear hierarchy */
+    margin-bottom: 15px; /* Space between the last link and next h5 */
+  list-style-type: none; /* Remove bullets from list items */
+  padding: 0; /* Remove default padding */
+}
+
+/* Styling for each navigation link */
+.nav-link {
+  color: #004D40;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 5px;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effects */
+}
+
+/* Hover effect for links */
+.nav-link:hover {
+  background-color: rgba(0, 77, 64, 0.1);
+  border-radius: 10px;
+  padding: 5px 10px; /* Reduce padding to keep it consistent */
+  color: #00695C;
+}
+
+/* Active link styling */
+.nav-link.active {
+  background-color: #B2DFDB;
+  border-radius: 10px;
+  padding: 5px 10px; /* Adjust to match hover */
+  color: #004D40;
+  font-weight: 600;
+}
+
+/* Styling for the h5 elements */
+.sidebar h5 {
+  font-size: 16px; /* Slightly larger for better readability */
+  font-weight: 600;
+  margin-bottom: 10px; /* Tighter margin for better structure */
+  text-transform: uppercase;
+  color: #004D40;
+  letter-spacing: 1px;
+}
