@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Sidebar from './pages/Sidebar';
 import './App.css';
 import Main from './pages/Main';
-import Personalnfo from './pages/Personalnfo';
+import Personalnfo from './pages/PersonalInfo';
 import Family from './pages/Family';
 import Educational from './pages/Educational';
 import Eligibilty from './pages/Eligibilty';
