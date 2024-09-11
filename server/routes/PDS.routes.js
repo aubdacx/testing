@@ -15,49 +15,27 @@ const validateFields = (req, res, next) => {
 };
 
 // Validation-only routes
-router.post('/validate/personal-info', validations.validatePersonalInfo, validateFields, (req, res) => {
-  res.status(200).json({ message: 'Personal Info validation passed' });
-});
+router.post('/validate/personal-info', validations.validatePersonalInfo, validateFields);
 
-router.post('/validate/family-background', validations.validateFamilyBackground, validateFields, (req, res) => {
-  res.status(200).json({ message: 'Family Background validation passed' });
-});
+router.post('/validate/family-background', validations.validateFamilyBackground, validateFields);
 
-router.post('/validate/educational-background', validations.validateEducationalBackground, validateFields, (req, res) => {
-  res.status(200).json({ message: 'Educational Background validation passed' });
-});
+router.post('/validate/educational-background', validations.validateEducationalBackground, validateFields);
 
-router.post('/validate/work-experience', validations.validateWorkExperience, validateFields, (req, res) => {
-  res.status(200).json({ message: 'Work Experience validation passed' });
-});
+router.post('/validate/work-experience', validations.validateWorkExperience, validateFields);
 
-router.post('/validate/civil-service-eligibility', validations.validateCivilServiceEligibility, validateFields, (req, res) => {
-  res.status(200).json({ message: 'Civil Service Eligibility validation passed' });
-});
+router.post('/validate/civil-service-eligibility', validations.validateCivilServiceEligibility, validateFields);
 
-router.post('/validate/voluntary-work', validations.validateVoluntaryWork, validateFields, (req, res) => {
-  res.status(200).json({ message: 'Voluntary Work validation passed' });
-});
+router.post('/validate/voluntary-work', validations.validateVoluntaryWork, validateFields);
 
-router.post('/validate/learning-and-development', validations.validateLearningAndDevelopment, validateFields, (req, res) => {
-  res.status(200).json({ message: 'Learning and Development validation passed' });
-});
+router.post('/validate/learning-and-development', validations.validateLearningAndDevelopment, validateFields);
 
-router.post('/validate/other-information', validations.validateOtherInformation, validateFields, (req, res) => {
-  res.status(200).json({ message: 'Other Information validation passed' });
-});
+router.post('/validate/other-information', validations.validateOtherInformation, validateFields);
 
-router.post('/validate/relationships-legal-info', validations.validateRelationshipsLegalInfo, validateFields, (req, res) => {
-  res.status(200).json({ message: 'Relationships and Legal Info validation passed' });
-});
+router.post('/validate/relationships-legal-info', validations.validateRelationshipsLegalInfo, validateFields);
 
-router.post('/validate/references', validations.validateReferences, validateFields, (req, res) => {
-  res.status(200).json({ message: 'References validation passed' });
-});
+router.post('/validate/references', validations.validateReferences, validateFields);
 
-router.post('/validate/declaration', validations.validateDeclaration, validateFields, (req, res) => {
-  res.status(200).json({ message: 'Declaration validation passed' });
-});
+router.post('/validate/declaration', validations.validateDeclaration, validateFields);
 
 // Sequential Posting Routes
 

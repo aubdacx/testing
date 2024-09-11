@@ -1,164 +1,92 @@
-const express = require('express');
-const { validationResult } = require('express-validator');
-const controllers = require('../controllers/PDS.controller'); // Adjust the path as needed
-const validations = require('../validations/PDS.validation'); // Import the validations
+const { body } = require('express-validator');
 
-const router = express.Router();
+// Personal Info Validation
+const validatePersonalInfo = [
+  body('surname').notEmpty().withMessage('Surname is required.'),
+  body('firstName').notEmpty().withMessage('First name is required.'),
+  body('middleName').notEmpty().withMessage('Middle name is required.'),
+  body('dateOfBirth').isDate().withMessage('Date of Birth must be a valid date.'),
+  body('placeOfBirth').notEmpty().withMessage('Place of Birth is required.'),
+  body('sex').isIn(['Male', 'Female']).withMessage('Sex must be either Male or Female.'),
+  body('citizenship').notEmpty().withMessage('Citizenship is required.'),
+];
 
-// Middleware to handle validation errors
-const validateFields = (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array().map((err) => err.msg) });
-  }
-  next();
+// Family Background Validation
+const validateFamilyBackground = [
+  body('spouse.surname').optional().isString().withMessage('Spouse surname must be a string.'),
+  body('children.*.name').optional().isString().withMessage('Child name must be a string.'),
+  body('children.*.dateOfBirth').optional().isDate().withMessage('Child date of birth must be a valid date.'),
+];
+
+// Educational Background Validation
+const validateEducationalBackground = [
+  body('level').isIn(['Elementary', 'Secondary', 'Vocational/Trade Course', 'College', 'Graduate Studies'])
+    .withMessage('Invalid education level.'),
+  body('schoolName').notEmpty().withMessage('School name is required.'),
+  body('periodOfAttendance.from').optional().isDate().withMessage('Invalid start date.'),
+  body('periodOfAttendance.to').optional().isDate().withMessage('Invalid end date.'),
+];
+
+// Work Experience Validation
+const validateWorkExperience = [
+  body('duration.from').isDate().withMessage('Start date is required and must be valid.'),
+  body('position').notEmpty().withMessage('Position is required.'),
+  body('monthlySalary').optional().isNumeric().withMessage('Monthly salary must be a number.'),
+];
+
+// Civil Service Eligibility Validation
+const validateCivilServiceEligibility = [
+  body('careerService').notEmpty().withMessage('Career Service is required.'),
+  body('dateOfExamination').optional().isDate().withMessage('Invalid date of examination.'),
+];
+
+// Voluntary Work Validation
+const validateVoluntaryWork = [
+  body('organizationName').notEmpty().withMessage('Organization name is required.'),
+  body('duration.from').isDate().withMessage('Start date is required.'),
+  body('duration.to').isDate().withMessage('End date is required.'),
+];
+
+// Learning and Development Validation
+const validateLearningAndDevelopment = [
+  body('title').notEmpty().withMessage('Title is required.'),
+  body('duration.from').isDate().withMessage('Start date is required.'),
+  body('duration.to').isDate().withMessage('End date is required.'),
+];
+
+// Other Information Validation
+const validateOtherInformation = [
+  body('specialSkillsAndHobbies').isArray().withMessage('Special skills and hobbies must be an array.'),
+  body('nonAcademicDistinctions').isArray().withMessage('Non-academic distinctions must be an array.'),
+];
+
+// Relationships and Legal Info Validation
+const validateRelationshipsLegalInfo = [
+  body('relatedToAuthority.thirdDegree').optional().isBoolean().withMessage('Must be a boolean.'),
+  body('administrativeOffense.foundGuilty').optional().isBoolean().withMessage('Must be a boolean.'),
+];
+
+// References Validation
+const validateReferences = [
+  body('name').notEmpty().withMessage('Reference name is required.'),
+];
+
+// Declaration Validation
+const validateDeclaration = [
+  body('declarationStatement').optional().isString().withMessage('Declaration statement must be a string.'),
+];
+
+// Export all validations
+module.exports = {
+  validatePersonalInfo,
+  validateFamilyBackground,
+  validateEducationalBackground,
+  validateWorkExperience,
+  validateCivilServiceEligibility,
+  validateVoluntaryWork,
+  validateLearningAndDevelopment,
+  validateOtherInformation,
+  validateRelationshipsLegalInfo,
+  validateReferences,
+  validateDeclaration,
 };
-
-// Validation-only routes
-router.post('/validate/personal-info', validations.validatePersonalInfo, validateFields);
-
-router.post('/validate/family-background', validations.validateFamilyBackground, validateFields);
-
-router.post('/validate/educational-background', validations.validateEducationalBackground, validateFields);
-
-router.post('/validate/work-experience', validations.validateWorkExperience, validateFields);
-
-router.post('/validate/civil-service-eligibility', validations.validateCivilServiceEligibility, validateFields);
-
-router.post('/validate/voluntary-work', validations.validateVoluntaryWork, validateFields);
-
-router.post('/validate/learning-and-development', validations.validateLearningAndDevelopment, validateFields);
-
-router.post('/validate/other-information', validations.validateOtherInformation, validateFields);
-
-router.post('/validate/relationships-legal-info', validations.validateRelationshipsLegalInfo, validateFields);
-
-router.post('/validate/references', validations.validateReferences, validateFields);
-
-router.post('/validate/declaration', validations.validateDeclaration, validateFields);
-
-// Sequential Posting Routes
-
-// 1. Post Personal Information
-router.post(
-  '/personal-info',
-  controllers.addPersonalInfo,
-  async (req, res, next) => {
-    const { _id } = req.body; // Assuming the controller adds the personal info and returns the new `_id` as `personId`
-    if (!_id) return res.status(400).json({ error: 'Missing personal info ID' });
-    req.personId = _id; // Save the personId to pass to the next step
-    next();
-  }
-);
-
-// 2. Post Family Background using the personal info ID
-router.post(
-  '/family-background',
-  (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
-    req.body.personId = req.personId;
-    next();
-  },
-  controllers.addFamilyBackground
-);
-
-// 3. Post Educational Background using the personal info ID
-router.post(
-  '/educational-background',
-  (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
-    req.body.personId = req.personId;
-    next();
-  },
-  controllers.addEducationalBackground
-);
-
-// 4. Post Work Experience using the personal info ID
-router.post(
-  '/work-experience',
-  (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
-    req.body.personId = req.personId;
-    next();
-  },
-  controllers.addWorkExperience
-);
-
-// 5. Post Civil Service Eligibility using the personal info ID
-router.post(
-  '/civil-service-eligibility',
-  (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
-    req.body.personId = req.personId;
-    next();
-  },
-  controllers.addCivilServiceEligibility
-);
-
-// 6. Post Voluntary Work using the personal info ID
-router.post(
-  '/voluntary-work',
-  (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
-    req.body.personId = req.personId;
-    next();
-  },
-  controllers.addVoluntaryWork
-);
-
-// 7. Post Learning and Development using the personal info ID
-router.post(
-  '/learning-and-development',
-  (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
-    req.body.personId = req.personId;
-    next();
-  },
-  controllers.addLearningAndDevelopment
-);
-
-// 8. Post Other Information using the personal info ID
-router.post(
-  '/other-information',
-  (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
-    req.body.personId = req.personId;
-    next();
-  },
-  controllers.addOtherInformation
-);
-
-// 9. Post Relationships and Legal Info using the personal info ID
-router.post(
-  '/relationships-legal-info',
-  (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
-    req.body.personId = req.personId;
-    next();
-  },
-  controllers.addRelationshipsLegalInfo
-);
-
-// 10. Post References using the personal info ID
-router.post(
-  '/references',
-  (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
-    req.body.personId = req.personId;
-    next();
-  },
-  controllers.addReferences
-);
-
-// 11. Post Declaration using the personal info ID
-router.post(
-  '/declaration',
-  (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
-    req.body.personId = req.personId;
-    next();
-  },
-  controllers.addDeclaration
-);
-
-module.exports = router;
