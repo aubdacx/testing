@@ -20,32 +20,6 @@ function Sidebar() {
         HOME
       </NavLink>
 
-      {/* Section for Applicant */}
-      <div className="category-container">
-        <h5 onClick={() => handleCategoryClick('applicant')} className="clickable-h5">
-          Applicant
-        </h5>
-        {selectedCategory === 'applicant' && (
-          <ul className="links-container">
-            <li>
-              <NavLink to="/AddPosition" className="nav-link" activeClassName="active">
-                Add Job Position
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/ManageJob" className="nav-link" activeClassName="active">
-                Manage Job
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/ViewApplicant" className="nav-link" activeClassName="active">
-                Add Applicant
-              </NavLink>
-            </li>
-          </ul>
-        )}
-      </div>
-
       {/* Section for Employee */}
       <div className="category-container">
         <h5 onClick={() => handleCategoryClick('employee')} className="clickable-h5">
@@ -116,8 +90,18 @@ function Sidebar() {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/manage-job-application" className="nav-link" activeClassName="active">
-                Manage Job Application
+              <NavLink to="/AddPosition" className="nav-link" activeClassName="active">
+                Add Job Position
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/ManageJob" className="nav-link" activeClassName="active">
+                Manage Job Posting
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/ViewApplicant" className="nav-link" activeClassName="active">
+                Add Applicant
               </NavLink>
             </li>
           </ul>

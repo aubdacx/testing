@@ -75,16 +75,7 @@ function AddJobPosting() {
       <div className="content flex-grow-1 p-4">
         <h4>Add New Job Position</h4>
         <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="no" className="form-label">Job Posting No.</label>
-            <input
-              type="number"
-              className="form-control"
-              id="no"
-              value={jobPostData.no}
-              onChange={handleChange}
-            />
-          </div>
+       
           <div className="mb-3">
             <label htmlFor="positionTitle" className="form-label">Position Title</label>
             <input
@@ -129,7 +120,7 @@ function AddJobPosting() {
           <div className="mb-3">
             <h5>Qualification Standards</h5>
             <div className="row">
-              <div className="col-md-2">
+              <div className="">
                 <label htmlFor="education" className="form-label">Education</label>
                 <input
                   type="text"
@@ -139,7 +130,7 @@ function AddJobPosting() {
                   onChange={handleQualificationChange}
                 />
               </div>
-              <div className="col-md-2">
+              <div className="">
                 <label htmlFor="training" className="form-label">Training</label>
                 <input
                   type="text"
@@ -149,7 +140,7 @@ function AddJobPosting() {
                   onChange={handleQualificationChange}
                 />
               </div>
-              <div className="col-md-2">
+              <div className="">
                 <label htmlFor="experience" className="form-label">Experience</label>
                 <input
                   type="text"
@@ -159,7 +150,7 @@ function AddJobPosting() {
                   onChange={handleQualificationChange}
                 />
               </div>
-              <div className="col-md-2">
+              <div className="">
                 <label htmlFor="eligibility" className="form-label">Eligibility</label>
                 <input
                   type="text"
@@ -169,7 +160,7 @@ function AddJobPosting() {
                   onChange={handleQualificationChange}
                 />
               </div>
-              <div className="col-md-2">
+              <div className="">
                 <label htmlFor="competency" className="form-label">Competency</label>
                 <input
                   type="text"

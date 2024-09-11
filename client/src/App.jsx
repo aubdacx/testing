@@ -3,8 +3,14 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Sidebar from './pages/Sidebar';
 import './App.css';
 import Main from './pages/Main';
-import Personalnfo from './pages/PDS';
-import Eligibility from './pages/Eligibility';
+import Personalnfo from './pages/Personalnfo';
+import Family from './pages/Family';
+import Educational from './pages/Educational';
+import Eligibilty from './pages/Eligibilty';
+import WorkExperience from './pages/WorkExperience';
+import VoluntaryWork from './pages/VoluntaryWork';
+import LearningDev from './pages/LearningDev';
+import OtherInfo from './pages/OtherInfo';
 import AddPosition from './pages/AddJobPosting';
 import ManageJob from './pages/ManageJobPosting';
 import ViewApplicant from './pages/ViewApplicant';
@@ -15,10 +21,14 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/PDS" element={<Personalnfo />} />
-        <Route path="/Eligibility" element={<Eligibility />} />
-        {/* <Route path="/Page3" element={<Page3 />} />
-        <Route path="/Page4" element={<Page4 />} />  */}
+        <Route path="/Personalnfo/:applicantId" element={<Personalnfo />} />
+        <Route path="/Family" element={<Family />} />
+        <Route path="/Educational" element={<Educational />} />
+        <Route path="/Eligibilty" element={<Eligibilty />} />
+        <Route path="/WorkExperience" element={<WorkExperience />} />
+        <Route path="/VoluntaryWork" element={<VoluntaryWork />} />
+        <Route path="/LearningDev" element={<LearningDev />} />
+        <Route path="/OtherInfo" element={<OtherInfo />} />
         <Route path="/AddPosition" element={<AddPosition />} />
         <Route path="/ManageJob" element={<ManageJob />} />
         <Route path="/Applicant/:jobId" element={<ViewApplicant />} />
