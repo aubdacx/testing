@@ -14,59 +14,151 @@ const validateFields = (req, res, next) => {
   next();
 };
 
-// Routes for Personal Information
-router.get('/personal-info/:id?', controllers.getPersonalInfo);
-router.post('/personal-info', validations.validatePersonalInfo, validateFields, controllers.addPersonalInfo);
-router.put('/personal-info/:id', validations.validatePersonalInfo, validateFields, controllers.editPersonalInfo);
+// Validation-only routes
+router.post('/validate/personal-info', validations.validatePersonalInfo, validateFields);
 
-// Routes for Family Background
-router.get('/family-background/:id?', controllers.getFamilyBackground);
-router.post('/family-background', validations.validateFamilyBackground, validateFields, controllers.addFamilyBackground);
-router.put('/family-background/:id', validations.validateFamilyBackground, validateFields, controllers.editFamilyBackground);
+router.post('/validate/family-background', validations.validateFamilyBackground, validateFields);
 
-// Routes for Educational Background
-router.get('/educational-background/:id?', controllers.getEducationalBackground);
-router.post('/educational-background', validations.validateEducationalBackground, validateFields, controllers.addEducationalBackground);
-router.put('/educational-background/:id', validations.validateEducationalBackground, validateFields, controllers.editEducationalBackground);
+router.post('/validate/educational-background', validations.validateEducationalBackground, validateFields);
 
-// Routes for Work Experience
-router.get('/work-experience/:id?', controllers.getWorkExperience);
-router.post('/work-experience', validations.validateWorkExperience, validateFields, controllers.addWorkExperience);
-router.put('/work-experience/:id', validations.validateWorkExperience, validateFields, controllers.editWorkExperience);
+router.post('/validate/work-experience', validations.validateWorkExperience, validateFields);
 
-// Routes for Civil Service Eligibility
-router.get('/civil-service-eligibility/:id?', controllers.getCivilServiceEligibility);
-router.post('/civil-service-eligibility', validations.validateCivilServiceEligibility, validateFields, controllers.addCivilServiceEligibility);
-router.put('/civil-service-eligibility/:id', validations.validateCivilServiceEligibility, validateFields, controllers.editCivilServiceEligibility);
+router.post('/validate/civil-service-eligibility', validations.validateCivilServiceEligibility, validateFields);
 
-// Routes for Voluntary Work
-router.get('/voluntary-work/:id?', controllers.getVoluntaryWork);
-router.post('/voluntary-work', validations.validateVoluntaryWork, validateFields, controllers.addVoluntaryWork);
-router.put('/voluntary-work/:id', validations.validateVoluntaryWork, validateFields, controllers.editVoluntaryWork);
+router.post('/validate/voluntary-work', validations.validateVoluntaryWork, validateFields);
 
-// Routes for Learning and Development
-router.get('/learning-and-development/:id?', controllers.getLearningAndDevelopment);
-router.post('/learning-and-development', validations.validateLearningAndDevelopment, validateFields, controllers.addLearningAndDevelopment);
-router.put('/learning-and-development/:id', validations.validateLearningAndDevelopment, validateFields, controllers.editLearningAndDevelopment);
+router.post('/validate/learning-and-development', validations.validateLearningAndDevelopment, validateFields);
 
-// Routes for Other Information
-router.get('/other-information/:id?', controllers.getOtherInformation);
-router.post('/other-information', validations.validateOtherInformation, validateFields, controllers.addOtherInformation);
-router.put('/other-information/:id', validations.validateOtherInformation, validateFields, controllers.editOtherInformation);
+router.post('/validate/other-information', validations.validateOtherInformation, validateFields);
 
-// Routes for Relationships and Legal Info
-router.get('/relationships-legal-info/:id?', controllers.getRelationshipsLegalInfo);
-router.post('/relationships-legal-info', validations.validateRelationshipsLegalInfo, validateFields, controllers.addRelationshipsLegalInfo);
-router.put('/relationships-legal-info/:id', validations.validateRelationshipsLegalInfo, validateFields, controllers.editRelationshipsLegalInfo);
+router.post('/validate/relationships-legal-info', validations.validateRelationshipsLegalInfo, validateFields);
 
-// Routes for References
-router.get('/references/:id?', controllers.getReferences);
-router.post('/references', validations.validateReferences, validateFields, controllers.addReferences);
-router.put('/references/:id', validations.validateReferences, validateFields, controllers.editReferences);
+router.post('/validate/references', validations.validateReferences, validateFields);
 
-// Routes for Declaration
-router.get('/declaration/:id?', controllers.getDeclaration);
-router.post('/declaration', validations.validateDeclaration, validateFields, controllers.addDeclaration);
-router.put('/declaration/:id', validations.validateDeclaration, validateFields, controllers.editDeclaration);
+router.post('/validate/declaration', validations.validateDeclaration, validateFields);
+
+// Sequential Posting Routes
+
+// 1. Post Personal Information
+router.post(
+  '/personal-info',
+  controllers.addPersonalInfo,
+  async (req, res, next) => {
+    const { _id } = req.body; // Assuming the controller adds the personal info and returns the new `_id` as `personId`
+    if (!_id) return res.status(400).json({ error: 'Missing personal info ID' });
+    req.personId = _id; // Save the personId to pass to the next step
+    next();
+  }
+);
+
+// 2. Post Family Background using the personal info ID
+router.post(
+  '/family-background',
+  (req, res, next) => {
+    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
+    req.body.personId = req.personId;
+    next();
+  },
+  controllers.addFamilyBackground
+);
+
+// 3. Post Educational Background using the personal info ID
+router.post(
+  '/educational-background',
+  (req, res, next) => {
+    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
+    req.body.personId = req.personId;
+    next();
+  },
+  controllers.addEducationalBackground
+);
+
+// 4. Post Work Experience using the personal info ID
+router.post(
+  '/work-experience',
+  (req, res, next) => {
+    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
+    req.body.personId = req.personId;
+    next();
+  },
+  controllers.addWorkExperience
+);
+
+// 5. Post Civil Service Eligibility using the personal info ID
+router.post(
+  '/civil-service-eligibility',
+  (req, res, next) => {
+    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
+    req.body.personId = req.personId;
+    next();
+  },
+  controllers.addCivilServiceEligibility
+);
+
+// 6. Post Voluntary Work using the personal info ID
+router.post(
+  '/voluntary-work',
+  (req, res, next) => {
+    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
+    req.body.personId = req.personId;
+    next();
+  },
+  controllers.addVoluntaryWork
+);
+
+// 7. Post Learning and Development using the personal info ID
+router.post(
+  '/learning-and-development',
+  (req, res, next) => {
+    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
+    req.body.personId = req.personId;
+    next();
+  },
+  controllers.addLearningAndDevelopment
+);
+
+// 8. Post Other Information using the personal info ID
+router.post(
+  '/other-information',
+  (req, res, next) => {
+    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
+    req.body.personId = req.personId;
+    next();
+  },
+  controllers.addOtherInformation
+);
+
+// 9. Post Relationships and Legal Info using the personal info ID
+router.post(
+  '/relationships-legal-info',
+  (req, res, next) => {
+    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
+    req.body.personId = req.personId;
+    next();
+  },
+  controllers.addRelationshipsLegalInfo
+);
+
+// 10. Post References using the personal info ID
+router.post(
+  '/references',
+  (req, res, next) => {
+    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
+    req.body.personId = req.personId;
+    next();
+  },
+  controllers.addReferences
+);
+
+// 11. Post Declaration using the personal info ID
+router.post(
+  '/declaration',
+  (req, res, next) => {
+    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
+    req.body.personId = req.personId;
+    next();
+  },
+  controllers.addDeclaration
+);
 
 module.exports = router;
