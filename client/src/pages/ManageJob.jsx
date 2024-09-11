@@ -4,28 +4,30 @@ import Sidebar from './Sidebar';
 import { Link } from 'react-router-dom';
 
 function ManageJob() {
-  const [jobs, setJobs] = useState([]);
+  const [vacancies, setVacancies] = useState([]);
 
+  // Fetch job postings from the backend
   useEffect(() => {
-    Axios.get('/api/job-postings/fetch')
+    Axios.get('http://localhost:3000/api/job-postings/fetch')
       .then((response) => {
         if (Array.isArray(response.data)) {
-          setJobs(response.data);
+          setVacancies(response.data);
         } else {
           console.error('Unexpected response data:', response.data);
-          setJobs([]); 
+          setVacancies([]);
         }
       })
       .catch((error) => {
         console.error('Error fetching jobs', error);
-        setJobs([]); 
+        setVacancies([]);
       });
   }, []);
-  
+
+  // Delete a job posting
   const handleDelete = (id) => {
-    Axios.delete(`/api/job-postings/${id}`)
+    Axios.delete(`http://localhost:3000/api/job-postings/${id}`)
       .then(() => {
-        setJobs(jobs.filter((job) => job._id !== id));
+        setVacancies(vacancies.filter((job) => job._id !== id));
       })
       .catch((error) => {
         console.error('Error deleting job', error);
@@ -37,7 +39,7 @@ function ManageJob() {
       <Sidebar />
       <div className="content flex-grow-1 p-4">
         <h4>Manage Job Positions</h4>
-        {jobs.length > 0 ? (
+        {vacancies.length > 0 ? (
           <table className="table">
             <thead>
               <tr>
@@ -48,22 +50,22 @@ function ManageJob() {
               </tr>
             </thead>
             <tbody>
-              {jobs.map((job) => (
-                <tr key={job._id}>
-                  <td>{job.no}</td>
-                  <td>{job.positionTitle}</td>
-                  <td>{job.plantilliaItemNo}</td>
+              {vacancies.map((vacancy) => (
+                <tr key={vacancy._id}>
+                  <td>{vacancy.no}</td>
+                  <td>{vacancy.positionTitle}</td>
+                  <td>{vacancy.plantilliaItemNo}</td>
                   <td>
                     <button
                       className="btn btn-danger me-2"
-                      onClick={() => handleDelete(job._id)}
+                      onClick={() => handleDelete(vacancy._id)}
                     >
                       Delete
                     </button>
-                    <Link to={`/edit-job/${job._id}`} className="btn btn-secondary me-2">
+                    <Link to={`/edit-job/${vacancy._id}`} className="btn btn-secondary me-2">
                       Edit
                     </Link>
-                    <Link to={`/view-applicant/${job._id}`} className="btn btn-primary">
+                    <Link to={`/jobApplicants`} className="btn btn-primary">
                       View Applicants
                     </Link>
                   </td>
