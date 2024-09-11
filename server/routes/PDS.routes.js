@@ -55,7 +55,7 @@ router.post(
 router.post(
   '/family-background',
   (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
+    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID fam BG' });
     req.body.personId = req.personId;
     next();
   },
@@ -66,7 +66,7 @@ router.post(
 router.post(
   '/educational-background',
   (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
+    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info Ed BG' });
     req.body.personId = req.personId;
     next();
   },
@@ -77,7 +77,7 @@ router.post(
 router.post(
   '/work-experience',
   (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
+    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID Work XP' });
     req.body.personId = req.personId;
     next();
   },
