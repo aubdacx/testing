@@ -57,8 +57,52 @@ function Personalnfo() {
       alert('Please fill out all required fields and provide a signature before proceeding.');
     }
   };
+
+  const handleNavigation = (page) => {
+    navigate(page);
+};
   return (
     <div className="container mt-5">
+      {/* Navigation Bar */}
+      <div className="mb-4">
+                <nav className="navbar navbar-expand navbar-light bg-light">
+                    <ul className="navbar-nav">
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>Page 1</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/Family')}>Page 2</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/Educational')}>Page 3</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/Eligibilty')}>Page 4</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/WorkExperience')}>Page 5</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/VoluntaryWork')}>Page 6</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/LearningDev')}>Page 7</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/OtherInfo')}>Page 8</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/RelationshipInfo')}>Page 9</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/References')}>Page 10</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/Declaration')}>Page 11</button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
       {/* <p><i><b>CS Form No. 212
         <br/>Revised 2017</b></i></p> */}
    <h2 className="text-center"><b> PERSONAL DATA SHEET </b></h2>

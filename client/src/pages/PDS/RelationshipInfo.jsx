@@ -1,17 +1,9 @@
-
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import SignatureCanvas from 'react-signature-canvas';
-import axios from 'axios';
 
-function OtherInfo() {
+function RelationshipInfo() {
     const [formData, setFormData] = useState({
-        otherInformation: {
-            specialSkills: [''],
-            nonAcademicDistinctions: [''],
-            membershipInOrganizations: ['']
-        },
         relativesInGovernment: { withinThirdDegree: '', withinFourthDegree: '', details: '' },
         administrativeOffenses: { foundGuilty: '', details: '' },
         criminalCharged: { charged: '', details: '', dateFiled: '', caseStatus: '' },
@@ -23,118 +15,151 @@ function OtherInfo() {
         indigenousGroup: { isMember: '', specify: '' },
         disability: { isDisabled: '', specify: '' },
         soloParent: { isSoloParent: '', specify: '' },
-        references: [{ name: '', address: '', telephone: '' }],
-        govID: { idType: '', idNumber: '', datePlace: '' },
-        signatureDate: '',
-        photoUploaded: false
     });
 
-    const sigCanvas = useRef(null);
     const navigate = useNavigate();
 
-    const handleClear = () => {
-        sigCanvas.current.clear();
-    };
-
-    const handleSignatureEnd = () => {
-        // Implement logic if needed when signature ends
-    };
-
-    const handleOtherInformationChange = (section, index, e) => {
-        const { value } = e.target;
-        const updatedFields = [...formData.otherInformation[section]];
-        updatedFields[index] = value;
-        setFormData({
-            ...formData,
-            otherInformation: {
-                ...formData.otherInformation,
-                [section]: updatedFields
-            }
-        });
-    };
-
-    const handleAddField = (section) => {
-        setFormData({
-            ...formData,
-            otherInformation: {
-                ...formData.otherInformation,
-                [section]: [...formData.otherInformation[section], '']
-            }
-        });
-    };
-
     const handleInputChange = (section, field, value) => {
-        setFormData({
-            ...formData,
+        setFormData((prevData) => ({
+            ...prevData,
             [section]: {
-                ...formData[section],
-                [field]: value
-            }
-        });
-    };
-
-    const handleArrayChange = (section, index, field, value) => {
-        const updatedFields = [...formData[section]];
-        updatedFields[index][field] = value;
-        setFormData({ ...formData, [section]: updatedFields });
-    };
-
-    const handleSubmit = () => {
-        // Implement validation logic here
-        console.log("Form submitted", formData);
-        // Implement form submission logic here
+                ...prevData[section],
+                [field]: value,
+            },
+        }));
     };
 
     const handlePreviousClick = () => {
-        navigate('/LearningDev');
+        navigate('/OtherInfo');
     };
 
-    const handlePhotoUpload = (e) => {
-        // In a real application, you'd handle the file upload here
-        setFormData({ ...formData, photoUploaded: true });
-    };
-
+    const handleNextClick = () => {
+      let isFormValid = true;
+  
+      // Check if each section should be validated based on user responses
+      if (formData.relativesInGovernment.withinThirdDegree === 'yes' || formData.relativesInGovernment.withinFourthDegree === 'yes') {
+          if (formData.relativesInGovernment.details.trim() === '') {
+              isFormValid = false;
+          }
+      }
+  
+      if (formData.administrativeOffenses.foundGuilty === 'yes') {
+          if (formData.administrativeOffenses.details.trim() === '') {
+              isFormValid = false;
+          }
+      }
+  
+      if (formData.criminalCharged.charged === 'yes') {
+          if (formData.criminalCharged.dateFiled.trim() === '' || formData.criminalCharged.caseStatus.trim() === '') {
+              isFormValid = false;
+          }
+      }
+  
+      if (formData.courtConviction.convicted === 'yes') {
+          if (formData.courtConviction.details.trim() === '') {
+              isFormValid = false;
+          }
+      }
+  
+      if (formData.separationFromService.separated === 'yes') {
+          if (formData.separationFromService.details.trim() === '') {
+              isFormValid = false;
+          }
+      }
+  
+      if (formData.candidacyInElection.candidate === 'yes') {
+          if (formData.candidacyInElection.details.trim() === '') {
+              isFormValid = false;
+          }
+      }
+  
+      if (formData.resignedForElection.resigned === 'yes') {
+          if (formData.resignedForElection.details.trim() === '') {
+              isFormValid = false;
+          }
+      }
+  
+      if (formData.immigrantStatus.status === 'yes') {
+          if (formData.immigrantStatus.country.trim() === '') {
+              isFormValid = false;
+          }
+      }
+  
+      if (formData.indigenousGroup.isMember === 'yes') {
+          if (formData.indigenousGroup.specify.trim() === '') {
+              isFormValid = false;
+          }
+      }
+  
+      if (formData.disability.isDisabled === 'yes') {
+          if (formData.disability.specify.trim() === '') {
+              isFormValid = false;
+          }
+      }
+  
+      if (formData.soloParent.isSoloParent === 'yes') {
+          if (formData.soloParent.specify.trim() === '') {
+              isFormValid = false;
+          }
+      }
+  
+      if (isFormValid) {
+          navigate('/References');
+      } else {
+          alert('Please fill out all applicable fields before proceeding.');
+      }
+  };
+  
+  const handleNavigation = (page) => {
+    navigate(page);
+};
 
     return (
         <div className="container mt-4">
+           {/* Navigation Bar */}
+           <div className="mb-4">
+                <nav className="navbar navbar-expand navbar-light bg-light">
+                    <ul className="navbar-nav">
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>Page 1</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/Family')}>Page 2</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/Educational')}>Page 3</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/Eligibilty')}>Page 4</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/WorkExperience')}>Page 5</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/VoluntaryWork')}>Page 6</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/LearningDev')}>Page 7</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/OtherInfo')}>Page 8</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/RelationshipInfo')}>Page 9</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/References')}>Page 10</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/Declaration')}>Page 11</button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
             <div className="border p-4">
-                <h4 className="mt-4"><i>VIII. OTHER INFORMATION</i></h4>
-                {Object.keys(formData.otherInformation).map((section, sectionIndex) => (
-                    <div key={sectionIndex} className="mb-4">
-                        {formData.otherInformation[section].map((field, index) => (
-                            <div key={index} className="row mb-3 align-items-center">
-                                <div className="col-md-10">
-                                    <label className="form-label">
-                                        {section === 'specialSkills' ? '31. Special Skills and Hobbies' :
-                                         section === 'nonAcademicDistinctions' ? '32. Non-Academic Distinctions/Recognition' :
-                                         '33. Membership in Association/Organization'}
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        value={field}
-                                        onChange={(e) => handleOtherInformationChange(section, index, e)}
-                                        style={{ border: '1px solid #ced4da' }}
-                                    />
-                                </div>
-                                <div className="col-md-2 text-end">
-                                    <button
-                                        type="button"
-                                        className="btn btn-secondary"
-                                        onClick={() => handleAddField(section)}
-                                    >
-                                        Add {section === 'specialSkills' ? 'Skill/Hobby' :
-                                             section === 'nonAcademicDistinctions' ? 'Distinction' :
-                                             'Membership'}
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                ))}
+                {/* <h4 className="mt-4"><i>VIII. OTHER INFORMATION</i></h4> */}
 
-                {/* Additional Fields from the image */}
-        <label>34. Are you related by consanguinity or affinity to the appointing or recommending authority, or to the
+                <label>34. Are you related by consanguinity or affinity to the appointing or recommending authority, or to the
         chief of bureau or office or to the person who has immediate supervision over you in the Office,
         Bureau or Department where you will be appointed?</label>
         <label>a. within the third degree</label>
@@ -365,144 +390,17 @@ function OtherInfo() {
             />
           )}
         </div>
-        <label>41. References (Person not related by consanguinity or affinity to applicant/appointee)</label   >
-        {formData.references.map((reference, index) => (
-          <div key={index} className="row mb-3">
-            <div className="col-md-4">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Name"
-                value={reference.name}
-                onChange={(e) => handleArrayChange('references', index, 'name', e.target.value)}
-              />
-            </div>
-            <div className="col-md-4">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Address"
-                value={reference.address}
-                onChange={(e) => handleArrayChange('references', index, 'address', e.target.value)}
-              />
-            </div>
-            <div className="col-md-4">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Telephone"
-                value={reference.telephone}
-                onChange={(e) => handleArrayChange('references', index, 'telephone', e.target.value)}
-              />
-            </div>
-          </div>
-        ))}
-        <button type="button" className="btn btn-secondary mb-4" onClick={() => setFormData({ ...formData, references: [...formData.references, { name: '', address: '', telephone: '' }] })}>Add Reference</button>
-<div></div>
-       
-                <div className="row">
-                    <div className="col-md-8">
-                        <label>42. I declare under oath that I have personally accomplished this Personal Data Sheet which is a true, correct and complete statement pursuant to the provisions of pertinent laws, rules and regulations of the Republic of the Philippines. I authorize the agency head/authorized representative to verify/validate the contents stated herein. I agree that any misrepresentation made in this document and its attachments shall cause the filing of administrative/criminal case/s against me.</label>
-
-                        <div className="mt-3">
-                            <label>Government Issued ID (i.e. Passport, GSIS, SSS, PRC, Driver's License, etc.)</label>
-                            <div className="mb-3">
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Government Issued ID"
-                                    value={formData.govID.idType}
-                                    onChange={(e) => handleInputChange('govID', 'idType', e.target.value)}
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="ID/License/Passport No.:"
-                                    value={formData.govID.idNumber}
-                                    onChange={(e) => handleInputChange('govID', 'idNumber', e.target.value)}
-                                />
-                            </div>
-                            <div className="mb-3">
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Date/Place of Issuance:"
-                                    value={formData.govID.datePlace}
-                                    onChange={(e) => handleInputChange('govID', 'datePlace', e.target.value)}
-                                />
-                            </div>
-                        </div>
-
-                       <div className="row mt-4">
-      <div className="col-md-6 mb-4">
-        <label className="form-label">Signature</label>
-        <div className="border border-secondary rounded p-2">
-          <SignatureCanvas
-            ref={sigCanvas}
-            penColor="black"
-            canvasProps={{
-              width: 500,
-              height: 80,
-              className: 'signature-canvas'
-            }}
-            onEnd={handleSignatureEnd}
-          />
-        </div>
-        <button
-          type="button"
-          className="btn btn-danger mt-2"
-          onClick={handleClear}
-        >
-          Clear Signature
-        </button>
-      </div>
-    </div>
-
-                        <div className="mb-8">
-                            <input
-                                type="date"
-                                className="form-control"
-                                placeholder="Date Accomplished"
-                                value={formData.signatureDate}
-                                onChange={(e) => handleInputChange('signatureDate', '', e.target.value)}
-                            />
-                        </div>
-                    </div>
-                    <div className="col-md-4">
-                        <div className="border p-3 mb-3">
-                            <p>ID picture taken within the last 6 months 4.5 cm. X 3.5 cm (passport size)</p>
-                            <p>Computer generated or photocopied picture is not acceptable</p>
-                            <div className="border p-3 mb-3" style={{ height: '200px' }}>
-                                {formData.photoUploaded ? (
-                                    <p>Photo uploaded</p>
-                                ) : (
-                                    <input type="file" onChange={handlePhotoUpload} accept="image/*" />
-                                )}
-                            </div>
-                            <p className="text-center">PHOTO</p>
-                        </div>
-                        <div className="border p-3 mb-3" style={{ height: '100px' }}>
-                            <p className="text-center">Right Thumbmark</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="mt-3">
-                    <p>SUBSCRIBED AND SWORN to before me this ______________________________, affiant exhibiting his/her validly issued government ID as indicated above.</p>
-                    <div className="border p-3 mb-3" style={{ height: '100px' }}>
-                        <p className="text-center">Person Administering Oath</p>
-                    </div>
-                </div>
-
                 <div className="d-flex justify-content-end mt-3">
-                    <button type="button" className="btn btn-primary me-2" onClick={handlePreviousClick}>Previous</button>
-                    <button type="button" className="btn btn-success" onClick={handleSubmit}>Submit</button>
+                    <button type="button" className="btn btn-primary me-2" onClick={handlePreviousClick}>
+                        Previous
+                    </button>
+                    <button type="button" className="btn btn-primary" onClick={handleNextClick}>
+                        Next
+                    </button>
                 </div>
             </div>
         </div>
     );
 }
 
-export default OtherInfo;
+export default RelationshipInfo;
