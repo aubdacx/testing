@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import SignatureCanvas from "react-signature-canvas";
@@ -53,7 +53,7 @@ function Personalnfo() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData);
+    // Save formData to session storage
   };
 
   const sigCanvas = useRef(null);
@@ -69,6 +69,7 @@ function Personalnfo() {
 
   const navigate = useNavigate();
   const handleNextClick = () => {
+    console.log(formData);
     const requiredFields = [
       "surname",
       "firstName",
@@ -90,7 +91,6 @@ function Personalnfo() {
       "residentialZipCode",
       "emailAddress",
       "mobileNumber",
-      "signature",
       "date",
       "province",
       "cityMunicipality",
@@ -100,15 +100,15 @@ function Personalnfo() {
     const allFieldsFilled = requiredFields.every(
       (field) => formData[field] && formData[field].trim() !== ""
     );
-    const isSignatureFilled = formData.signature.trim() !== "";
-
-    if (allFieldsFilled && isSignatureFilled) {
-      navigate("/Family");
-    } else {
-      alert(
-        "Please fill out all required fields and provide a signature before proceeding."
-      );
-    }
+    sessionStorage.setItem("personalInfo", JSON.stringify(formData));
+    console.log("Form Data Submitted:", formData);
+    navigate("/Family");
+    // if (allFieldsFilled) {
+    // } else {
+    //   alert(
+    //     "Please fill out all required fields and provide a signature before proceeding."
+    //   );
+    // }
   };
   return (
     <div className="container mt-5">
@@ -297,6 +297,7 @@ function Personalnfo() {
                   onChange={handleChange}
                 />
               </div>
+
               <div className="col-md-4 mb-3">
                 <label>14. Agency Employee No.</label>
                 <input

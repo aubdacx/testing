@@ -21,10 +21,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Main />} />
-        <Route path="/Personalnfo/:applicantId" element={<Personalnfo />} />
+        <Route path="/PersonalInfo" element={<Personalnfo />} />
         <Route path="/Family" element={<Family />} />
         <Route path="/Educational" element={<Educational />} />
-        <Route path="/Eligibilty" element={<Eligibilty />} />
+        <Route path="/Eligibility" element={<Eligibilty />} />
         <Route path="/WorkExperience" element={<WorkExperience />} />
         <Route path="/VoluntaryWork" element={<VoluntaryWork />} />
         <Route path="/LearningDev" element={<LearningDev />} />

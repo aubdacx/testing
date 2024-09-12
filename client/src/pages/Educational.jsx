@@ -4,49 +4,50 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Educational() {
   const [formData, setFormData] = useState({
-    education: [
-      { level: 'Elementary', schoolName: '', degree: '', attendanceFrom: '', attendanceTo: '', unitsEarned: '', yearGraduated: '', honors: '' },
-      { level: 'Secondary', schoolName: '', degree: '', attendanceFrom: '', attendanceTo: '', unitsEarned: '', yearGraduated: '', honors: '' },
-      { level: 'Vocational/Trade Course', schoolName: '', degree: '', attendanceFrom: '', attendanceTo: '', unitsEarned: '', yearGraduated: '', honors: '' },
-      { level: 'College', schoolName: '', degree: '', attendanceFrom: '', attendanceTo: '', unitsEarned: '', yearGraduated: '', honors: '' },
-      { level: 'Graduate Studies', schoolName: '', degree: '', attendanceFrom: '', attendanceTo: '', unitsEarned: '', yearGraduated: '', honors: '' },
-    ],
+    personId: "",
+    education: [  // Initialize education as an array
+      {
+        level: "",
+        schoolName: "",
+        basicEducationDegreeCourse: "",
+        periodOfAttendance: {
+          from: "",
+          to: ""
+        },
+        highestLevelUnitsEarned: "",
+        yearGraduated: "",
+        honorsReceived: ""
+      }
+    ]
   });
 
   const handleEducationChange = (index, e) => {
     const { name, value } = e.target;
     const newEducation = [...formData.education];
-    newEducation[index][name] = value;
+
+    // Check if the field is a nested field
+    if (name.startsWith('periodOfAttendance')) {
+      const key = name.split('.')[1];
+      newEducation[index].periodOfAttendance = {
+        ...newEducation[index].periodOfAttendance,
+        [key]: value,
+      };
+    } else {
+      // Handle other fields
+      newEducation[index][name] = value;
+    }
+
     setFormData({
       ...formData,
       education: newEducation,
     });
   };
 
-  const validateForm = () => {
-    for (const education of formData.education) {
-      if (
-        !education.schoolName ||
-        !education.degree ||
-        !education.attendanceFrom ||
-        !education.attendanceTo ||
-        !education.unitsEarned ||
-        !education.yearGraduated
-      ) {
-        return false;
-      }
-    }
-    return true;
-  };
-
   const navigate = useNavigate();
 
   const handleNextClick = () => {
-    if (validateForm()) {
-      navigate('/Eligibility'); // Ensure the path is correct
-    } else {
-      alert('Please fill in all required fields for each education level.');
-    }
+    sessionStorage.setItem("EducationalBG", JSON.stringify(formData));
+    navigate('/Eligibility');
   };
 
   const handlePreviousClick = () => {

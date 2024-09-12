@@ -40,33 +40,34 @@ router.post('/validate/declaration', validations.validateDeclaration, validateFi
 // Sequential Posting Routes
 
 // 1. Post Personal Information
-router.post(
-  '/personal-info',
-  controllers.addPersonalInfo,
-  async (req, res, next) => {
-    const { _id } = req.body; // Assuming the controller adds the personal info and returns the new `_id` as `personId`
-    if (!_id) return res.status(400).json({ error: 'Missing personal info ID' });
-    req.personId = _id; // Save the personId to pass to the next step
-    next();
+// Middleware between '/personal-info' and next handler
+router.post('/personal-info', controllers.addPersonalInfo, async (req, res, next) => {
+  const { _id } = req.body; // Assuming the controller returns the new ID
+  console.log('Received _id from personal info:', _id); // Debug log
+  if (!_id) {
+    console.error('Missing personal info ID'); // Debug log
+    return res.status(400).json({ error: 'Missing personal info ID' });
   }
-);
+  req.personId = _id; // Save the personId
+  next();
+});
 
-// 2. Post Family Background using the personal info ID
-router.post(
-  '/family-background',
-  (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID fam BG' });
-    req.body.personId = req.personId;
-    next();
-  },
-  controllers.addFamilyBackground
-);
+// Middleware for '/family-background'
+router.post('/family-background', (req, res, next) => {
+  console.log('Received personId in family background:', req.personId); // Debug log
+  if (!req.body.personId) {
+    return res.status(400).json({ error: 'Missing reference to personal info ID fam BG' });
+  }
+  req.body.personId = req.body.personId;
+  next();
+}, controllers.addFamilyBackground);
+
 
 // 3. Post Educational Background using the personal info ID
 router.post(
   '/educational-background',
   (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info Ed BG' });
+    if (!req.body.personId) return res.status(400).json({ error: 'Missing reference to personal info Ed BG' });
     req.body.personId = req.personId;
     next();
   },
@@ -77,7 +78,7 @@ router.post(
 router.post(
   '/work-experience',
   (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID Work XP' });
+    if (!req.body.personId) return res.status(400).json({ error: 'Missing reference to personal info ID Work XP' });
     req.body.personId = req.personId;
     next();
   },
@@ -88,7 +89,7 @@ router.post(
 router.post(
   '/civil-service-eligibility',
   (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
+    if (!req.body.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
     req.body.personId = req.personId;
     next();
   },
@@ -99,7 +100,7 @@ router.post(
 router.post(
   '/voluntary-work',
   (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
+    if (!req.body.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
     req.body.personId = req.personId;
     next();
   },
@@ -110,7 +111,7 @@ router.post(
 router.post(
   '/learning-and-development',
   (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
+    if (!req.body.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
     req.body.personId = req.personId;
     next();
   },
@@ -121,7 +122,7 @@ router.post(
 router.post(
   '/other-information',
   (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
+    if (!req.body.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
     req.body.personId = req.personId;
     next();
   },
@@ -132,7 +133,7 @@ router.post(
 router.post(
   '/relationships-legal-info',
   (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
+    if (!req.body.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
     req.body.personId = req.personId;
     next();
   },
@@ -143,7 +144,7 @@ router.post(
 router.post(
   '/references',
   (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
+    if (!req.body.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
     req.body.personId = req.personId;
     next();
   },
@@ -154,7 +155,7 @@ router.post(
 router.post(
   '/declaration',
   (req, res, next) => {
-    if (!req.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
+    if (!req.body.personId) return res.status(400).json({ error: 'Missing reference to personal info ID' });
     req.body.personId = req.personId;
     next();
   },
