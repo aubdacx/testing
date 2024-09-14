@@ -59,11 +59,13 @@ function Eligibility() {
   const navigate = useNavigate();
 
   const handleNextClick = () => {
-    if (validateForm()) {
+    sessionStorage.setItem("Eligibility", JSON.stringify(formData));
       navigate('/WorkExperience'); // Ensure the path is correct
-    } else {
-      alert('Please fill in all required fields for each eligibility entry.');
-    }
+    // if (validateForm()) {
+      
+    // } else {
+    //   alert('Please fill in all required fields for each eligibility entry.');
+    // }
   };
 
   const handlePreviousClick = () => {

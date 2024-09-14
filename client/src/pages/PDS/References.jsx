@@ -4,7 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function References() {
     const [formData, setFormData] = useState({
-        references: [{ name: '', address: '', telephone: '' }],
+        personId:'',
+        references: [{ name: '', address: '', telNo: '' }],
     });
 
     const navigate = useNavigate();
@@ -26,10 +27,11 @@ function References() {
         const isFormValid = formData.references.every((reference) => 
             reference.name.trim() !== '' && 
             reference.address.trim() !== '' && 
-            reference.telephone.trim() !== ''
+            reference.telNo.trim() !== ''
         );
 
         if (isFormValid) {
+            sessionStorage.setItem("References", JSON.stringify(formData));
             navigate('/Declaration');
         } else {
             alert('Please fill out all reference fields before proceeding.');
@@ -81,8 +83,8 @@ const handleNavigation = (path) => {
                                 type="text"
                                 className="form-control"
                                 placeholder="Telephone"
-                                value={reference.telephone}
-                                onChange={(e) => handleArrayChange('references', index, 'telephone', e.target.value)}
+                                value={reference.telNo}
+                                onChange={(e) => handleArrayChange('references', index, 'telNo', e.target.value)}
                             />
                         </div>
                     </div>
@@ -93,7 +95,7 @@ const handleNavigation = (path) => {
                     className="btn btn-secondary mb-4"
                     onClick={() => setFormData({
                         ...formData,
-                        references: [...formData.references, { name: '', address: '', telephone: '' }]
+                        references: [...formData.references, { name: '', address: '', telNo: '' }]
                     })}
                 >
                     Add Reference

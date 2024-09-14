@@ -14,8 +14,8 @@ import OtherInfo from './pages/PDS/OtherInfo';
 import RelationshipInfo from './pages/PDS/RelationshipInfo';
 import References from './pages/PDS/References';
 import Declaration from './pages/PDS/Declaration';
-import AddPosition from './pages/AddPosition';
-import ManageJob from './pages/ManageJob';
+import AddJobPosting from './pages/AddJobPosting';
+import ManageJob from './pages/ManageJobPosting';
 import ViewApplicant from './pages/ViewApplicant';
 import DailyTimeRecord from './pages/DailyTimeRecord';
 import Login from './pages/Login';
@@ -25,10 +25,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Main />} />
-              <Route path="/Personalnfo/:applicantId" element={<Personalnfo />} />
+              <Route path="/PersonalInfo" element={<Personalnfo />} />
               <Route path="/Family" element={<Family />} />
               <Route path="/Educational" element={<Educational />} />
-              <Route path="/Eligibilty" element={<Eligibilty />} />
+              <Route path="/Eligibility" element={<Eligibilty />} />
               <Route path="/WorkExperience" element={<WorkExperience />} />
               <Route path="/VoluntaryWork" element={<VoluntaryWork />} />
               <Route path="/LearningDev" element={<LearningDev />} />
@@ -36,7 +36,7 @@ function App() {
               <Route path="/RelationshipInfo" element={<RelationshipInfo />} />
               <Route path="/References" element={<References />} />
               <Route path="/Declaration" element={<Declaration />} />
-        <Route path="/AddPosition" element={<AddPosition />} />
+        <Route path="/AddJobPosting" element={<AddJobPosting />} />
         <Route path="/ManageJob" element={<ManageJob />} />
         <Route path="/Applicant/:jobId" element={<ViewApplicant />} />
         <Route path="/DailyTimeRecord" element={<DailyTimeRecord />} />

@@ -1,3 +1,4 @@
+// jobPosting.model.js
 const mongoose = require('mongoose');
 
 const jobPostingSchema = new mongoose.Schema({
@@ -10,7 +11,7 @@ const jobPostingSchema = new mongoose.Schema({
     required: true,
   },
   plantilliaItemNo: {
-    type: Number,  
+    type: Number,
     required: true,
   },
   salaryJobGrade: {

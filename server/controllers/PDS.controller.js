@@ -20,7 +20,7 @@ const {
   // General Add Function Template with personId
   const addDocument = async (Model, req, res) => {
     try {
-      // Ensure personId is set based on PersonalInfo
+      // Validate personId for models other than PersonalInfo
       if (Model.modelName !== 'PersonalInfo') {
         const { personId } = req.body;
         if (!personId || !(await PersonalInfo.exists({ _id: personId }))) {
@@ -28,13 +28,21 @@ const {
         }
       }
   
+      // Create and save the new document
       const document = new Model(req.body);
       await document.save();
-      res.status(201).json({ message: `${Model.modelName} added successfully`, data: document });
+  
+      // Return a response with the document data, including the id
+      res.status(201).json({
+        message: `${Model.modelName} added successfully`,
+        data: document,
+        personId: document.personId || document._id, // This ensures personId is returned correctly
+      });
     } catch (error) {
       handleErrors(res, error);
     }
   };
+  
   
   // General Edit Function Template with personId
   const editDocument = async (Model, req, res) => {

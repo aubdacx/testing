@@ -1,35 +1,80 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function Family() {
   const [formData, setFormData] = useState({
-    spouseSurname: '',
-    spouseFirstName: '',
-    spouseMiddleName: '',
-    spouseNameExtension: '', 
-    spouseOccupation: '',
-    spouseEmployer: '',
-    spouseBusinessAddress: '',
-    spouseTelephone: '',
-    children: [{ name: '', dateOfBirth: '' }],
-    fatherSurname: '',
-    fatherFirstName: '',
-    fatherMiddleName: '',
-    fatherNameExtension: '', 
-    motherSurname: '',
-    motherFirstName: '',
-    motherMiddleName: '',
+    personId: "",
+    spouse: {
+      surname: "",
+      firstName: "",
+      middleName: "",
+      nameExtension: "",
+      occupation: "",
+      employerBusinessName: "",
+      businessAddress: "",
+      telephoneNo: "",
+    },
+    children: [{ name: "", dateOfBirth: "" }],
+    father: {
+      surname: "",
+      firstName: "",
+      middleName: "",
+      nameExtension: "",
+    },
+    mother: {
+      maidenName: {
+        surname: "",
+        firstName: "",
+        middleName: "",
+      },
+    },
   });
 
+  // Handle changes for form fields
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+
+    // Update nested objects
+    if (name.startsWith("spouse")) {
+      const key = name.split(".")[1];
+      setFormData({
+        ...formData,
+        spouse: {
+          ...formData.spouse,
+          [key]: value,
+        },
+      });
+    } else if (name.startsWith("father")) {
+      const key = name.split(".")[1];
+      setFormData({
+        ...formData,
+        father: {
+          ...formData.father,
+          [key]: value,
+        },
+      });
+    } else if (name.startsWith("mother")) {
+      const key = name.split(".")[1];
+      setFormData({
+        ...formData,
+        mother: {
+          maidenName: {
+            ...formData.mother.maidenName,
+            [key]: value,
+          },
+        },
+      });
+    } else {
+      // Handle top-level fields like personId
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
+  // Handle changes for children array elements
   const handleChildrenChange = (index, e) => {
     const { name, value } = e.target;
     const newChildren = [...formData.children];
@@ -40,77 +85,38 @@ function Family() {
     });
   };
 
+  // Add a new child to the children array
   const handleAddChild = () => {
     setFormData({
       ...formData,
-      children: [...formData.children, { name: '', dateOfBirth: '' }],
+      children: [...formData.children, { name: "", dateOfBirth: "" }],
     });
   };
 
-  const validateForm = () => {
-    if (
-      !formData.spouseSurname ||
-      !formData.spouseFirstName ||
-      !formData.spouseMiddleName ||
-      !formData.spouseOccupation ||
-      !formData.spouseEmployer ||
-      !formData.spouseBusinessAddress ||
-      !formData.spouseTelephone
-    ) {
-      return false;
-    }
-
-    for (const child of formData.children) {
-      if (!child.name || !child.dateOfBirth) {
-        return false;
-      }
-    }
-
-    if (
-      !formData.fatherSurname ||
-      !formData.fatherFirstName ||
-      !formData.fatherMiddleName
-    ) {
-      return false;
-    }
-
-    if (
-      !formData.motherSurname ||
-      !formData.motherFirstName ||
-      !formData.motherMiddleName
-    ) {
-      return false;
-    }
-
-    return true;
-  };
-
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleNextClick = () => {
-    if (validateForm()) {
-      navigate('/Educational'); 
-    } else {
-      alert('Please fill in all required fields.');
-    }
+    sessionStorage.setItem("FamilyBG", JSON.stringify(formData));
+    navigate("/Educational");
   };
 
   const handlePreviousClick = () => {
-    navigate('/PersonalInfo/:applicantId'); 
+    navigate("/PersonalInfo");
   };
 
   const [currentPage, setCurrentPage] = useState(2); 
     const totalPages = 11; 
 
   const handleNavigation = (path) => {
-        navigate(path);
-      };
-
+    navigate(path);
+};
   return (
     <div className="container mt-5">
        
       <div className="border p-4">
-        <h4><i>II. FAMILY BACKGROUND</i></h4>
+        <h4>
+          <i>II. FAMILY BACKGROUND</i>
+        </h4>
         {/* Spouse Information */}
         <div className="row">
           <div className="col-md-4 mb-3">
@@ -144,16 +150,16 @@ function Family() {
             />
           </div>
           <div className="col-md-4 mb-3">
-  <label>Name Extension (e.g., Jr., Sr.)</label>
-  <input
-    type="text"
-    className="form-control"
-    name="spouseNameExtension"
-    value={formData.spouseNameExtension}
-    onChange={handleChange}
-  />
-</div>
-<div></div>
+            <label>Name Extension (e.g., Jr., Sr.)</label>
+            <input
+              type="text"
+              className="form-control"
+              name="spouseNameExtension"
+              value={formData.spouseNameExtension}
+              onChange={handleChange}
+            />
+          </div>
+          <div></div>
           <div className="col-md-4 mb-3">
             <label>Occupation</label>
             <input
@@ -223,7 +229,13 @@ function Family() {
                 </div>
               </div>
             ))}
-            <button type="button" className="btn btn-secondary" onClick={handleAddChild}>Add Child</button>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={handleAddChild}
+            >
+              Add Child
+            </button>
           </div>
         </div>
 
@@ -261,16 +273,15 @@ function Family() {
           </div>
 
           <div className="col-md-4 mb-3">
-  <label>Name Extension  (e.g., Jr., Sr.)</label>
-  <input
-    type="text"
-    className="form-control"
-    name="fatherNameExtension"
-    value={formData.fatherNameExtension}
-    onChange={handleChange}
-  />
-</div>
-
+            <label>Name Extension (e.g., Jr., Sr.)</label>
+            <input
+              type="text"
+              className="form-control"
+              name="fatherNameExtension"
+              value={formData.fatherNameExtension}
+              onChange={handleChange}
+            />
+          </div>
         </div>
 
         {/* Mother's Information */}

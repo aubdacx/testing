@@ -4,10 +4,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function OtherInfo() {
     const [formData, setFormData] = useState({
+        personId:'',
         otherInformation: {
-            specialSkills: [''],
+            specialSkillsAndHobbies: [''],
             nonAcademicDistinctions: [''],
-            membershipInOrganizations: ['']
+            memberships: ['']
         },
         photoUploaded: false
     });
@@ -48,6 +49,7 @@ function OtherInfo() {
         );
 
         if (isFormValid) {
+            sessionStorage.setItem("OtherInfo", JSON.stringify(formData));
             navigate('/RelationshipInfo');
         } else {
             alert("Please fill out all fields before proceeding.");

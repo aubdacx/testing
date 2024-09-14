@@ -100,7 +100,7 @@ function Sidebar() {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/ViewApplicant" className="nav-link" activeClassName="active">
+              <NavLink to="/PersonalInfo" className="nav-link" activeClassName="active">
                 Add Applicant
               </NavLink>
             </li>

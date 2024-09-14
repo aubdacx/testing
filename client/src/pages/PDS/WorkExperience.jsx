@@ -1,28 +1,58 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function WorkExperience() {
   const [formData, setFormData] = useState({
     workExperience: [
       {
-        from: '',
-        to: '',
-        positionTitle: '',
-        department: '',
-        monthlySalary: '',
-        salaryGrade: '',
-        statusOfAppointment: '',
-        govService: '',
+        duration: {
+          from: "",
+          to: "",
+        },
+        positionTitle: "",
+        department: "",
+        immediateSupervisor: "",
+        agencyOrganization: {
+          name: "",
+          location: "",
+        },
+        accomplishments: [""], // Default to an array with one empty string
+        summaryOfDuties: "",
+        monthlySalary: "",
+        salaryGrade: "",
+        statusOfAppointment: "",
+        govService: false,
       },
     ],
   });
 
   const handleWorkExperienceChange = (index, e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     const updatedExperience = [...formData.workExperience];
-    updatedExperience[index][name] = value;
-    setFormData({ ...formData, workExperience: updatedExperience });
+
+    if (name.startsWith("duration")) {
+      const key = name.split(".")[1];
+      updatedExperience[index].duration = {
+        ...updatedExperience[index].duration,
+        [key]: value,
+      };
+    } else if (name.startsWith("agencyOrganization")) {
+      const key = name.split(".")[1];
+      updatedExperience[index].agencyOrganization = {
+        ...updatedExperience[index].agencyOrganization,
+        [key]: value,
+      };
+    } else if (type === "checkbox") {
+      updatedExperience[index][name] = checked;
+    } else {
+      updatedExperience[index][name] = value;
+    }
+
+    setFormData({
+      ...formData,
+      workExperience: updatedExperience,
+    });
   };
 
   const handleAddWorkExperience = () => {
@@ -31,14 +61,24 @@ function WorkExperience() {
       workExperience: [
         ...formData.workExperience,
         {
-          from: '',
-          to: '',
-          positionTitle: '',
-          department: '',
-          monthlySalary: '',
-          salaryGrade: '',
-          statusOfAppointment: '',
-          govService: '',
+          personId: "",
+          duration: {
+            from: "",
+            to: "",
+          },
+          positionTitle: "",
+          department: "",
+          immediateSupervisor: "",
+          agencyOrganization: {
+            name: "",
+            location: "",
+          },
+          accomplishments: [""], // Default to an array with one empty string
+          summaryOfDuties: "",
+          monthlySalary: "",
+          salaryGrade: "",
+          statusOfAppointment: "",
+          govService: false,
         },
       ],
     });
@@ -47,14 +87,14 @@ function WorkExperience() {
   const validateForm = () => {
     for (const experience of formData.workExperience) {
       if (
-        !experience.from ||
-        !experience.to ||
+        !experience.duration.from ||
+        !experience.duration.to ||
         !experience.positionTitle ||
         !experience.department ||
         !experience.monthlySalary ||
         !experience.salaryGrade ||
         !experience.statusOfAppointment ||
-        !experience.govService
+        experience.govService === ""
       ) {
         return false;
       }
@@ -65,15 +105,16 @@ function WorkExperience() {
   const navigate = useNavigate();
 
   const handleNextClick = () => {
-    if (validateForm()) {
-      navigate('/VoluntaryWork'); // Update this route with the actual next page
-    } else {
-      alert('Please fill in all required fields for each work experience entry.');
-    }
+    // if (!validateForm()) {
+    //   alert("Please fill in all required fields.");
+    //   return;
+    // }
+    sessionStorage.setItem("WorkExperience", JSON.stringify(formData));
+    navigate("/VoluntaryWork"); // Update this route with the actual next page
   };
 
   const handlePreviousClick = () => {
-    navigate('/Eligibility'); // Update this route with the actual previous page
+    navigate("/Eligibility"); // Update this route with the actual previous page
   };
 
   const [currentPage, setCurrentPage] = useState(5); 
@@ -88,11 +129,13 @@ const handleNavigation = (path) => {
     <div className="container mt-4">
   
       <div className="border p-4">
-        <h4><i>V. WORK EXPERIENCE</i></h4>
+        <h4>
+          <i>V. WORK EXPERIENCE</i>
+        </h4>
         {formData.workExperience.map((experience, index) => (
           <div key={index} className="row mb-3">
             <div className="col-md-12">
-              <div className="border p-3 mb-3" style={{ borderRadius: '5px' }}>
+              <div className="border p-3 mb-3" style={{ borderRadius: "5px" }}>
                 <div className="row mb-3">
                   <div className="col-md-2 mb-3">
                     <label className="form-label">28. From</label>
@@ -102,7 +145,7 @@ const handleNavigation = (path) => {
                       name="from"
                       value={experience.from}
                       onChange={(e) => handleWorkExperienceChange(index, e)}
-                      style={{ border: '1px solid #ced4da' }}
+                      style={{ border: "1px solid #ced4da" }}
                     />
                   </div>
                   <div className="col-md-2 mb-3">
@@ -113,7 +156,7 @@ const handleNavigation = (path) => {
                       name="to"
                       value={experience.to}
                       onChange={(e) => handleWorkExperienceChange(index, e)}
-                      style={{ border: '1px solid #ced4da' }}
+                      style={{ border: "1px solid #ced4da" }}
                     />
                   </div>
                   <div className="col-md-4 mb-3">
@@ -124,18 +167,20 @@ const handleNavigation = (path) => {
                       name="positionTitle"
                       value={experience.positionTitle}
                       onChange={(e) => handleWorkExperienceChange(index, e)}
-                      style={{ border: '1px solid #ced4da' }}
+                      style={{ border: "1px solid #ced4da" }}
                     />
                   </div>
                   <div className="col-md-4 mb-3">
-                    <label className="form-label">Department/Agency/Office/Company</label>
+                    <label className="form-label">
+                      Department/Agency/Office/Company
+                    </label>
                     <input
                       type="text"
                       className="form-control"
                       name="department"
                       value={experience.department}
                       onChange={(e) => handleWorkExperienceChange(index, e)}
-                      style={{ border: '1px solid #ced4da' }}
+                      style={{ border: "1px solid #ced4da" }}
                     />
                   </div>
                 </div>
@@ -149,18 +194,20 @@ const handleNavigation = (path) => {
                       name="monthlySalary"
                       value={experience.monthlySalary}
                       onChange={(e) => handleWorkExperienceChange(index, e)}
-                      style={{ border: '1px solid #ced4da' }}
+                      style={{ border: "1px solid #ced4da" }}
                     />
                   </div>
                   <div className="col-md-3 mb-3">
-                    <label className="form-label">Salary/Job/Pay Grade & Step </label>
+                    <label className="form-label">
+                      Salary/Job/Pay Grade & Step{" "}
+                    </label>
                     <input
                       type="text"
                       className="form-control"
                       name="salaryGrade"
                       value={experience.salaryGrade}
                       onChange={(e) => handleWorkExperienceChange(index, e)}
-                      style={{ border: '1px solid #ced4da' }}
+                      style={{ border: "1px solid #ced4da" }}
                       placeholder="Format 00-0"
                     />
                   </div>
@@ -172,7 +219,7 @@ const handleNavigation = (path) => {
                       name="statusOfAppointment"
                       value={experience.statusOfAppointment}
                       onChange={(e) => handleWorkExperienceChange(index, e)}
-                      style={{ border: '1px solid #ced4da' }}
+                      style={{ border: "1px solid #ced4da" }}
                     />
                   </div>
                   <div className="col-md-3 mb-3">
@@ -182,11 +229,11 @@ const handleNavigation = (path) => {
                       name="govService"
                       value={experience.govService}
                       onChange={(e) => handleWorkExperienceChange(index, e)}
-                      style={{ border: '1px solid #ced4da' }}
+                      style={{ border: "1px solid #ced4da" }}
                     >
                       <option value="">Select</option>
-                      <option value="Y">Y</option>
-                      <option value="N">N</option>
+                      <option value={true}>Y</option>
+                      <option value={false}>N</option>
                     </select>
                   </div>
                 </div>
@@ -194,7 +241,11 @@ const handleNavigation = (path) => {
             </div>
           </div>
         ))}
-        <button type="button" className="btn btn-secondary" onClick={handleAddWorkExperience}>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={handleAddWorkExperience}
+        >
           Add Work Experience
         </button>
         <ul className="pagination justify-content-center">

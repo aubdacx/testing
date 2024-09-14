@@ -2,20 +2,22 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SignatureCanvas from 'react-signature-canvas';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
 
 function Declaration() {
     const [currentPage, setCurrentPage] = useState(11); 
     const totalPages = 11; 
 
     const [formData, setFormData] = useState({
-        govID: { idType: '', idNumber: '', datePlace: '' },
-        signatureDate: '',
+        personID: '',
+        governmentId: { type: '', idNo: '', dateOfIssuance: '', placeOfIssuance: '' },
+        signature: '',
+        dateAccomplished: '',
         photoUploaded: false,
         thumbmarkUploaded: false,
         swornDate: '',
-        oathPerson: '',
+        administeringOath: '',
     });
-
     const sigCanvas = useRef(null);
     const navigate = useNavigate();
 
@@ -23,7 +25,7 @@ function Declaration() {
         if (section === 'govID') {
             setFormData({
                 ...formData,
-                govID: { ...formData.govID, [field]: value }
+                governmentId: { ...formData.governmentId, [field]: value }
             });
         } else {
             setFormData({ ...formData, [section]: value });
@@ -32,6 +34,7 @@ function Declaration() {
 
     const handleClear = () => {
         sigCanvas.current.clear();
+        setFormData({ ...formData, signature: '' }); // Clear signature data
     };
 
     const handlePhotoUpload = (e) => {
@@ -46,39 +49,172 @@ function Declaration() {
         }
     };
 
-    // const handleNavigation = (page) => {
-    //     navigate(page);
-    // };
+    const handleNavigation = (page) => {
+        navigate(page);
+    };
 
+    const getSignatureData = () => {
+        return sigCanvas.current?.toDataURL(); // Get signature as base64 image
+    };
+
+    const handleSubmit = async () => {
+        const signatureData = getSignatureData();
+        if (signatureData) {
+            setFormData({ ...formData, signature: signatureData });
+        }
+    
+        try {
+            // Retrieve the personalInfo from sessionStorage
+            const personalInfo = JSON.parse(sessionStorage.getItem('personalInfo')) || {};
+        
+            // Post personalInfo to the server
+            const res = await axios.post('http://localhost:3000/api/pds/personal-info', personalInfo);
+            
+            // Extract the personId from the response
+            const personId = res.data.personId;
+            console.log('Response Data:', res.data);
+            console.log('Person ID:', personId);
+    
+            if (!personId) {
+                throw new Error('Person ID is not available');
+            }
+            
+            // Update sessionStorage with personId
+            sessionStorage.setItem("personId", JSON.stringify(personId));
+    
+            // Define endpoints and keys for section data
+            const sections = [
+                'FamilyBG',
+                'EducationalBG',
+                'workExperience',
+                'Eligibility',
+                'voluntaryWork',
+                'LearningDev',
+                'OtherInfo',
+                'RelationshipInfo',
+                'References'
+            ];
+        
+            // Update each section with personId and save back to session storage
+            sections.forEach(key => {
+                const sectionData = JSON.parse(sessionStorage.getItem(key)) || {};
+                const updatedSectionData = { ...sectionData, personId };
+                sessionStorage.setItem(key, JSON.stringify(updatedSectionData));
+            });
+        
+            // Define endpoints for each section
+            const endpoints = [
+                '/family-background',
+                '/educational-background',
+                '/work-experience',
+                '/civil-service-eligibility',
+                '/voluntary-work',
+                '/learning-and-development',
+                '/other-information',
+                '/relationships-legal-info',
+                '/references'
+            ];
+        
+            // Send POST requests for each endpoint
+            for (const [index, url] of endpoints.entries()) {
+                const sectionKey = sections[index];
+                const sectionData = JSON.parse(sessionStorage.getItem(sectionKey)) || {};
+                try {
+                    await axios.post(`http://localhost:3000/api/pds${url}`, sectionData);
+                } catch (err) {
+                    // Handle individual request errors
+                    console.error(`Error posting ${sectionKey}:`, err.response ? err.response.data : err.message);
+                    alert(`Failed to submit ${sectionKey}. Error: ${err.response ? err.response.data.error : err.message}`);
+                    return; // Stop further execution on error
+                }
+            }
+        
+            // Update personalInfo with personId and save back to session storage
+            const updatedPersonalInfo = { ...personalInfo, personId };
+            sessionStorage.setItem('personalInfo', JSON.stringify(updatedPersonalInfo));
+        
+            // Validate and handle form submission
+            if (validateForm({ ...formData, personalInfo: updatedPersonalInfo })) {
+                console.log({ ...formData, personalInfo: updatedPersonalInfo });
+                alert('Form submitted successfully!');
+            } else {
+                console.log({ ...formData, personalInfo: updatedPersonalInfo });
+                alert('Please fill in all required fields.');
+            }
+        } catch (error) {
+            console.error('Error submitting form:', error.response ? error.response.data : error.message);
+            alert('Failed to submit form. Please try again. Error: ' + (error.response ? error.response.data.error : error.message));
+        }
+    };
+    
     const validateForm = () => {
-        const { govID, signatureDate, photoUploaded, thumbmarkUploaded, swornDate, oathPerson } = formData;
+        const {
+            governmentId,
+            signature,
+            dateAccomplished,
+            photoUploaded,
+            thumbmarkUploaded,
+            swornDate,
+            administeringOath
+        } = formData;
+
         return (
-            govID.idType &&
-            govID.idNumber &&
-            govID.datePlace &&
-            signatureDate &&
+            governmentId &&
+            governmentId.type?.trim() !== '' &&
+            governmentId.idNo?.trim() !== '' &&
+            governmentId.dateOfIssuance?.trim() !== '' &&
+            governmentId.placeOfIssuance?.trim() !== '' &&
+            signature?.trim() !== '' &&
+            dateAccomplished?.trim() !== '' &&
             photoUploaded &&
             thumbmarkUploaded &&
-            swornDate &&
-            oathPerson
+            swornDate?.trim() !== '' &&
+            administeringOath?.trim() !== ''
         );
     };
 
-    const handleSubmit = () => {
-        if (validateForm()) {
-            // Add form submission logic here
-            alert('Form submitted successfully!');
-        } else {
-            alert('Please fill in all required fields.');
-        }
-    };
-
-    const handleNavigation = (path) => {
-        navigate(path);
-      };
-
     return (
         <div className="container mt-4">
+            {/* Navigation Bar */}
+            <div className="mb-4">
+                <nav className="navbar navbar-expand navbar-light bg-light">
+                    <ul className="navbar-nav">
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/PersonalInfo')}>Page 1</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/Family')}>Page 2</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/Educational')}>Page 3</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/Eligibilty')}>Page 4</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/WorkExperience')}>Page 5</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/VoluntaryWork')}>Page 6</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/LearningDev')}>Page 7</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/OtherInfo')}>Page 8</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/RelationshipInfo')}>Page 9</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/References')}>Page 10</button>
+                        </li>
+                        <li className="nav-item">
+                            <button className="btn btn-link" onClick={() => handleNavigation('/Declaration')}>Page 11</button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
 
             <div className="border p-4">
                 <label>
@@ -92,8 +228,8 @@ function Declaration() {
                             type="text"
                             className="form-control"
                             placeholder="Government Issued ID"
-                            value={formData.govID.idType}
-                            onChange={(e) => handleInputChange('govID', 'idType', e.target.value)}
+                            value={formData.governmentId.type}
+                            onChange={(e) => handleInputChange('governmentId', 'type', e.target.value)}
                         />
                     </div>
                     <div className="mb-3">
@@ -101,8 +237,8 @@ function Declaration() {
                             type="text"
                             className="form-control"
                             placeholder="ID/License/Passport No."
-                            value={formData.govID.idNumber}
-                            onChange={(e) => handleInputChange('govID', 'idNumber', e.target.value)}
+                            value={formData.governmentId.idNo}
+                            onChange={(e) => handleInputChange('governmentId', 'idNo', e.target.value)}
                         />
                     </div>
                     <div className="mb-3">
@@ -110,8 +246,17 @@ function Declaration() {
                             type="text"
                             className="form-control"
                             placeholder="Date/Place of Issuance"
-                            value={formData.govID.datePlace}
-                            onChange={(e) => handleInputChange('govID', 'datePlace', e.target.value)}
+                            value={formData.governmentId.dateOfIssuance}
+                            onChange={(e) => handleInputChange('governmentId', 'dateOfIssuance', e.target.value)}
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Place of Issuance"
+                            value={formData.governmentId.placeOfIssuance}
+                            onChange={(e) => handleInputChange('governmentId', 'placeOfIssuance', e.target.value)}
                         />
                     </div>
                 </div>
@@ -144,8 +289,8 @@ function Declaration() {
                         <input
                             type="date"
                             className="form-control"
-                            value={formData.signatureDate}
-                            onChange={(e) => handleInputChange('signatureDate', '', e.target.value)}
+                            value={formData.dateAccomplished}
+                            onChange={(e) => handleInputChange('dateAccomplished', '', e.target.value)}
                         />
                     </div>
                 </div>
@@ -176,33 +321,30 @@ function Declaration() {
 
                 <div className="mt-3">
                     <div className="text-center mt-3">
-                        <p>
-                            SUBSCRIBED AND SWORN to before me this 
-                            <input
-                                type="date"
-                                className="form-control d-inline mx-2"
-                                style={{ width: 'auto', display: 'inline-block' }}
-                                value={formData.swornDate}
-                                onChange={(e) => handleInputChange('swornDate', '', e.target.value)}
-                            />, 
-                            affiant exhibiting his/her validly issued government ID as indicated above.
-                        </p>
-                    </div>
-
-                    <div className="border p-3 mb-3" style={{ height: '100px' }}>
+                        <p>Sworn to before me this __ day of ____, 20___ at ____, Philippines.</p>
                         <input
                             type="text"
-                            className="form-control text-center"
-                            value={formData.oathPerson}
-                            onChange={(e) => handleInputChange('oathPerson', '', e.target.value)}
+                            className="form-control mb-2"
+                            placeholder="Date"
+                            value={formData.swornDate}
+                            onChange={(e) => handleInputChange('swornDate', '', e.target.value)}
                         />
-                        <p className="text-center">Person Administering Oath</p>
+                        <input
+                            type="text"
+                            className="form-control mb-2"
+                            placeholder="Place"
+                            value={formData.administeringOath}
+                            onChange={(e) => handleInputChange('administeringOath', '', e.target.value)}
+                        />
                     </div>
                 </div>
 
-                <div className="d-flex justify-content-end mt-3">
-                
-                    <button type="button" className="btn btn-success" onClick={handleSubmit}>
+                <div className="text-center mt-4">
+                    <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={handleSubmit}
+                    >
                         Submit
                     </button>
                 </div>
