@@ -104,6 +104,7 @@ function RelationshipInfo() {
       }
   
       if (isFormValid) {
+        sessionStorage.setItem("RelationshipInfo", JSON.stringify(formData));
           navigate('/References');
       } else {
           alert('Please fill out all applicable fields before proceeding.');

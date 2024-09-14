@@ -4,10 +4,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 function OtherInfo() {
     const [formData, setFormData] = useState({
+        personId:'',
         otherInformation: {
-            specialSkills: [''],
+            specialSkillsAndHobbies: [''],
             nonAcademicDistinctions: [''],
-            membershipInOrganizations: ['']
+            memberships: ['']
         },
         photoUploaded: false
     });
@@ -48,6 +49,7 @@ function OtherInfo() {
         );
 
         if (isFormValid) {
+            sessionStorage.setItem("OtherInfo", JSON.stringify(formData));
             navigate('/RelationshipInfo');
         } else {
             alert("Please fill out all fields before proceeding.");
@@ -64,7 +66,7 @@ function OtherInfo() {
                 <nav className="navbar navbar-expand navbar-light bg-light">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>Page 1</button>
+                            <button className="btn btn-link" onClick={() => handleNavigation('/PersonalInfo')}>Page 1</button>
                         </li>
                         <li className="nav-item">
                             <button className="btn btn-link" onClick={() => handleNavigation('/Family')}>Page 2</button>

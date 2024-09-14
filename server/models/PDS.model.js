@@ -73,17 +73,22 @@ const FamilyBackgroundSchema = new mongoose.Schema({
 // Educational Background Schema
 const EducationalBackgroundSchema = new mongoose.Schema({
   personId: { type: mongoose.Schema.Types.ObjectId, ref: 'PersonalInfo', required: true }, // Reference to PersonalInfo
-  level: { type: String, enum: ['Elementary', 'Secondary', 'Vocational/Trade Course', 'College', 'Graduate Studies'] },
-  schoolName: { type: String },
-  basicEducationDegreeCourse: { type: String },
-  periodOfAttendance: {
-    from: { type: Date },
-    to: { type: Date }
-  },
-  highestLevelUnitsEarned: { type: String },
-  yearGraduated: { type: String },
-  honorsReceived: { type: String }
+  education: [
+    {
+      level: { type: String, enum: ['Elementary', 'Secondary', 'Vocational/Trade Course', 'College', 'Graduate Studies'] },
+      schoolName: { type: String },
+      basicEducationDegreeCourse: { type: String },
+      periodOfAttendance: {
+        from: { type: Date },
+        to: { type: Date }
+      },
+      highestLevelUnitsEarned: { type: String },
+      yearGraduated: { type: String },
+      honorsReceived: { type: String }
+    }
+  ]
 }, { collection: 'PDS_EducationalBackground' });
+
 
 // Work Experience Schema
 const WorkExperienceSchema = new mongoose.Schema({
@@ -95,7 +100,7 @@ const WorkExperienceSchema = new mongoose.Schema({
   position: { type: String, required: true },
   officeUnit: { type: String },
   immediateSupervisor: { type: String },
-  agencyOrganization: { 
+  agencyOrganization: {
     name: { type: String },
     location: { type: String }
   },
@@ -147,9 +152,11 @@ const LearningAndDevelopmentSchema = new mongoose.Schema({
 // Other Information Schema
 const OtherInformationSchema = new mongoose.Schema({
   personId: { type: mongoose.Schema.Types.ObjectId, ref: 'PersonalInfo', required: true }, // Reference to PersonalInfo
-  specialSkillsAndHobbies: [{ type: String }],
-  nonAcademicDistinctions: [{ type: String }],
-  memberships: [{ type: String }]
+  otherInformation: {
+    specialSkillsAndHobbies: [{ type: String }],
+    nonAcademicDistinctions: [{ type: String }],
+    memberships: [{ type: String }]
+  }
 }, { collection: 'PDS_OtherInformation' });
 
 // Relationships and Legal Information Schema
@@ -203,9 +210,11 @@ const RelationshipsLegalInfoSchema = new mongoose.Schema({
 // References Schema
 const ReferencesSchema = new mongoose.Schema({
   personId: { type: mongoose.Schema.Types.ObjectId, ref: 'PersonalInfo', required: true }, // Reference to PersonalInfo
-  name: { type: String, required: true },
-  address: { type: String },
-  telNo: { type: String }
+  references: {
+    name: { type: String, required: true },
+    address: { type: String },
+    telNo: { type: String }
+  }
 }, { collection: 'PDS_References' });
 
 // Declaration Schema
@@ -220,7 +229,9 @@ const DeclarationSchema = new mongoose.Schema({
   },
   signature: { type: String },
   dateAccomplished: { type: Date },
-  rightThumbmark: { type: String },
+  rightThumbmark: { type: Boolean },
+  photoUploaded: { type: Boolean },
+  swornDate: { type: Date },
   administeringOath: { type: String }
 }, { collection: 'PDS_Declaration' });
 

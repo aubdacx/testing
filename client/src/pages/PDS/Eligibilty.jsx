@@ -82,7 +82,7 @@ function Eligibility() {
                 <nav className="navbar navbar-expand navbar-light bg-light">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>Page 1</button>
+                            <button className="btn btn-link" onClick={() => handleNavigation('/PersonalInfo')}>Page 1</button>
                         </li>
                         <li className="nav-item">
                             <button className="btn btn-link" onClick={() => handleNavigation('/Family')}>Page 2</button>
