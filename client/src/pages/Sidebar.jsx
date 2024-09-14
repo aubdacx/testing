@@ -38,7 +38,7 @@ function Sidebar() {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/leave-manage" className="nav-link" activeClassName="active">
+              <NavLink to="/DailyTimeRecord" className="nav-link" activeClassName="active">
                View Daily Time Records
               </NavLink>
             </li>

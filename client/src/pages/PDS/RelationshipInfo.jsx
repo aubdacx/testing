@@ -3,166 +3,134 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function RelationshipInfo() {
-    const [formData, setFormData] = useState({
-        relativesInGovernment: { withinThirdDegree: '', withinFourthDegree: '', details: '' },
-        administrativeOffenses: { foundGuilty: '', details: '' },
-        criminalCharged: { charged: '', details: '', dateFiled: '', caseStatus: '' },
-        courtConviction: { convicted: '', details: '' },
-        separationFromService: { separated: '', details: '' },
-        candidacyInElection: { candidate: '', details: '' },
-        resignedForElection: { resigned: '', details: '' },
-        immigrantStatus: { status: '', country: '' },
-        indigenousGroup: { isMember: '', specify: '' },
-        disability: { isDisabled: '', specify: '' },
-        soloParent: { isSoloParent: '', specify: '' },
-    });
+  const [formData, setFormData] = useState({
+    relativesInGovernment: { withinThirdDegree: '', withinFourthDegree: '', details: '' },
+    administrativeOffenses: { foundGuilty: '', details: '' },
+    criminalCharged: { charged: '', details: '', dateFiled: '', caseStatus: '' },
+    courtConviction: { convicted: '', details: '' },
+    separationFromService: { separated: '', details: '' },
+    candidacyInElection: { candidate: '', details: '' },
+    resignedForElection: { resigned: '', details: '' },
+    immigrantStatus: { status: '', country: '' },
+    indigenousGroup: { isMember: '', specify: '' },
+    disability: { isDisabled: '', specify: '' },
+    soloParent: { isSoloParent: '', specify: '' },
+  });
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleInputChange = (section, field, value) => {
-        setFormData((prevData) => ({
-            ...prevData,
-            [section]: {
-                ...prevData[section],
-                [field]: value,
-            },
-        }));
-    };
-
-    const handlePreviousClick = () => {
-        navigate('/OtherInfo');
-    };
-
-    const handleNextClick = () => {
-      let isFormValid = true;
-  
-      // Check if each section should be validated based on user responses
-      if (formData.relativesInGovernment.withinThirdDegree === 'yes' || formData.relativesInGovernment.withinFourthDegree === 'yes') {
-          if (formData.relativesInGovernment.details.trim() === '') {
-              isFormValid = false;
-          }
-      }
-  
-      if (formData.administrativeOffenses.foundGuilty === 'yes') {
-          if (formData.administrativeOffenses.details.trim() === '') {
-              isFormValid = false;
-          }
-      }
-  
-      if (formData.criminalCharged.charged === 'yes') {
-          if (formData.criminalCharged.dateFiled.trim() === '' || formData.criminalCharged.caseStatus.trim() === '') {
-              isFormValid = false;
-          }
-      }
-  
-      if (formData.courtConviction.convicted === 'yes') {
-          if (formData.courtConviction.details.trim() === '') {
-              isFormValid = false;
-          }
-      }
-  
-      if (formData.separationFromService.separated === 'yes') {
-          if (formData.separationFromService.details.trim() === '') {
-              isFormValid = false;
-          }
-      }
-  
-      if (formData.candidacyInElection.candidate === 'yes') {
-          if (formData.candidacyInElection.details.trim() === '') {
-              isFormValid = false;
-          }
-      }
-  
-      if (formData.resignedForElection.resigned === 'yes') {
-          if (formData.resignedForElection.details.trim() === '') {
-              isFormValid = false;
-          }
-      }
-  
-      if (formData.immigrantStatus.status === 'yes') {
-          if (formData.immigrantStatus.country.trim() === '') {
-              isFormValid = false;
-          }
-      }
-  
-      if (formData.indigenousGroup.isMember === 'yes') {
-          if (formData.indigenousGroup.specify.trim() === '') {
-              isFormValid = false;
-          }
-      }
-  
-      if (formData.disability.isDisabled === 'yes') {
-          if (formData.disability.specify.trim() === '') {
-              isFormValid = false;
-          }
-      }
-  
-      if (formData.soloParent.isSoloParent === 'yes') {
-          if (formData.soloParent.specify.trim() === '') {
-              isFormValid = false;
-          }
-      }
-  
-      if (isFormValid) {
-        sessionStorage.setItem("RelationshipInfo", JSON.stringify(formData));
-          navigate('/References');
-      } else {
-          alert('Please fill out all applicable fields before proceeding.');
-      }
+  const handleInputChange = (section, field, value) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [section]: {
+        ...prevData[section],
+        [field]: value,
+      },
+    }));
   };
-  
-  const handleNavigation = (page) => {
-    navigate(page);
-};
 
-    return (
-        <div className="container mt-4">
-           {/* Navigation Bar */}
-           <div className="mb-4">
-                <nav className="navbar navbar-expand navbar-light bg-light">
-                    <ul className="navbar-nav">
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>Page 1</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/Family')}>Page 2</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/Educational')}>Page 3</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/Eligibilty')}>Page 4</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/WorkExperience')}>Page 5</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/VoluntaryWork')}>Page 6</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/LearningDev')}>Page 7</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/OtherInfo')}>Page 8</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/RelationshipInfo')}>Page 9</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/References')}>Page 10</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/Declaration')}>Page 11</button>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-            <div className="border p-4">
-                {/* <h4 className="mt-4"><i>VIII. OTHER INFORMATION</i></h4> */}
+  const handlePreviousClick = () => {
+    navigate('/OtherInfo');
+  };
 
-                <label>34. Are you related by consanguinity or affinity to the appointing or recommending authority, or to the
-        chief of bureau or office or to the person who has immediate supervision over you in the Office,
-        Bureau or Department where you will be appointed?</label>
+  const handleNextClick = () => {
+    let isFormValid = true;
+
+    // Check if each section should be validated based on user responses
+    if (formData.relativesInGovernment.withinThirdDegree === 'yes' || formData.relativesInGovernment.withinFourthDegree === 'yes') {
+      if (formData.relativesInGovernment.details.trim() === '') {
+        isFormValid = false;
+      }
+    }
+
+    if (formData.administrativeOffenses.foundGuilty === 'yes') {
+      if (formData.administrativeOffenses.details.trim() === '') {
+        isFormValid = false;
+      }
+    }
+
+    if (formData.criminalCharged.charged === 'yes') {
+      if (formData.criminalCharged.dateFiled.trim() === '' || formData.criminalCharged.caseStatus.trim() === '') {
+        isFormValid = false;
+      }
+    }
+
+    if (formData.courtConviction.convicted === 'yes') {
+      if (formData.courtConviction.details.trim() === '') {
+        isFormValid = false;
+      }
+    }
+
+    if (formData.separationFromService.separated === 'yes') {
+      if (formData.separationFromService.details.trim() === '') {
+        isFormValid = false;
+      }
+    }
+
+    if (formData.candidacyInElection.candidate === 'yes') {
+      if (formData.candidacyInElection.details.trim() === '') {
+        isFormValid = false;
+      }
+    }
+
+    if (formData.resignedForElection.resigned === 'yes') {
+      if (formData.resignedForElection.details.trim() === '') {
+        isFormValid = false;
+      }
+    }
+
+    if (formData.immigrantStatus.status === 'yes') {
+      if (formData.immigrantStatus.country.trim() === '') {
+        isFormValid = false;
+      }
+    }
+
+    if (formData.indigenousGroup.isMember === 'yes') {
+      if (formData.indigenousGroup.specify.trim() === '') {
+        isFormValid = false;
+      }
+    }
+
+    if (formData.disability.isDisabled === 'yes') {
+      if (formData.disability.specify.trim() === '') {
+        isFormValid = false;
+      }
+    }
+
+    if (formData.soloParent.isSoloParent === 'yes') {
+      if (formData.soloParent.specify.trim() === '') {
+        isFormValid = false;
+      }
+    }
+
+    if (isFormValid) {
+      sessionStorage.setItem("RelationshipInfo", JSON.stringify(formData));
+      navigate('/References');
+    } else {
+      alert('Please fill out all applicable fields before proceeding.');
+    }
+  };
+
+  //   const handleNavigation = (page) => {
+  //     navigate(page);
+  // };
+
+  const [currentPage, setCurrentPage] = useState(9);
+  const totalPages = 11;
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+
+  return (
+    <div className="container mt-4">
+
+      <div className="border p-4">
+        {/* <h4 className="mt-4"><i>VIII. OTHER INFORMATION</i></h4> */}
+
+        <label>34. Are you related by consanguinity or affinity to the appointing or recommending authority, or to the
+          chief of bureau or office or to the person who has immediate supervision over you in the Office,
+          Bureau or Department where you will be appointed?</label>
         <label>a. within the third degree</label>
         <div className="mb-3">
           <input type="radio" id="thirdDegreeYes" name="withinThirdDegree" value="yes" checked={formData.relativesInGovernment.withinThirdDegree === 'yes'} onChange={(e) => handleInputChange('relativesInGovernment', 'withinThirdDegree', e.target.value)} />
@@ -204,51 +172,51 @@ function RelationshipInfo() {
           )}
         </div>
         <label> b. Have you been criminally charged before any court?</label>
-<div className="mb-3">
-  <input
-    type="radio"
-    id="chargedYes"
-    name="charged"
-    value="yes"
-    checked={formData.criminalCharged.charged === 'yes'}
-    onChange={(e) => handleInputChange('criminalCharged', 'charged', e.target.value)}
-  />
-  <label htmlFor="chargedYes">Yes</label>
-  
-  <input
-    type="radio"
-    id="chargedNo"
-    name="charged"
-    value="no"
-    checked={formData.criminalCharged.charged === 'no'}
-    onChange={(e) => handleInputChange('criminalCharged', 'charged', e.target.value)}
-  />
-  <label htmlFor="chargedNo">No</label>
+        <div className="mb-3">
+          <input
+            type="radio"
+            id="chargedYes"
+            name="charged"
+            value="yes"
+            checked={formData.criminalCharged.charged === 'yes'}
+            onChange={(e) => handleInputChange('criminalCharged', 'charged', e.target.value)}
+          />
+          <label htmlFor="chargedYes">Yes</label>
 
-  {formData.criminalCharged.charged === 'yes' && (
-    <div className="mt-2">
-      {/* Additional fields for "Yes" response */}
-    
-      <input
-     
-        type="date"
-        className="form-control mb-2"
-        placeholder="Date Filed"
-        value={formData.criminalCharged.dateFiled}
-        onChange={(e) => handleInputChange('criminalCharged', 'dateFiled', e.target.value)}
-      />
-      <input
-        type="text"
-        className="form-control"
-        placeholder="Status of Case/s"
-        value={formData.criminalCharged.caseStatus}
-        onChange={(e) => handleInputChange('criminalCharged', 'caseStatus', e.target.value)}
-      />
-    </div>
-  )}
-</div>
+          <input
+            type="radio"
+            id="chargedNo"
+            name="charged"
+            value="no"
+            checked={formData.criminalCharged.charged === 'no'}
+            onChange={(e) => handleInputChange('criminalCharged', 'charged', e.target.value)}
+          />
+          <label htmlFor="chargedNo">No</label>
 
-<label>36. Have you ever been convicted of any crime or violation of any law, decree, ordinance or regulation by any court or tribunal?</label>
+          {formData.criminalCharged.charged === 'yes' && (
+            <div className="mt-2">
+              {/* Additional fields for "Yes" response */}
+
+              <input
+
+                type="date"
+                className="form-control mb-2"
+                placeholder="Date Filed"
+                value={formData.criminalCharged.dateFiled}
+                onChange={(e) => handleInputChange('criminalCharged', 'dateFiled', e.target.value)}
+              />
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Status of Case/s"
+                value={formData.criminalCharged.caseStatus}
+                onChange={(e) => handleInputChange('criminalCharged', 'caseStatus', e.target.value)}
+              />
+            </div>
+          )}
+        </div>
+
+        <label>36. Have you ever been convicted of any crime or violation of any law, decree, ordinance or regulation by any court or tribunal?</label>
         <div className="mb-3">
           <input type="radio" id="convictedYes" name="convicted" value="yes" checked={formData.courtConviction.convicted === 'yes'} onChange={(e) => handleInputChange('courtConviction', 'convicted', e.target.value)} />
           <label htmlFor="convictedYes">Yes</label>
@@ -336,10 +304,10 @@ function RelationshipInfo() {
         </div>
 
         <label>40. Pursuant to: (a) Indigenous People's Act (RA 8371); (b) Magna Carta for Disabled Persons (RA
-            7277); and (c) Solo Parents Welfare Act of 2000 (RA 8972), please answer the following</label>
+          7277); and (c) Solo Parents Welfare Act of 2000 (RA 8972), please answer the following</label>
         <div className="mb-3">
-            <label> a. Are you a member of any indigenous group?</label>
-            <div></div>
+          <label> a. Are you a member of any indigenous group?</label>
+          <div></div>
           <input type="radio" id="indigenousYes" name="indigenous" value="yes" checked={formData.indigenousGroup.isMember === 'yes'} onChange={(e) => handleInputChange('indigenousGroup', 'isMember', e.target.value)} />
           <label htmlFor="indigenousYes">Yes</label>
           <input type="radio" id="indigenousNo" name="indigenous" value="no" checked={formData.indigenousGroup.isMember === 'no'} onChange={(e) => handleInputChange('indigenousGroup', 'isMember', e.target.value)} />
@@ -391,17 +359,63 @@ function RelationshipInfo() {
             />
           )}
         </div>
-                <div className="d-flex justify-content-end mt-3">
+        {/* <div className="d-flex justify-content-end mt-3">
                     <button type="button" className="btn btn-primary me-2" onClick={handlePreviousClick}>
                         Previous
                     </button>
                     <button type="button" className="btn btn-primary" onClick={handleNextClick}>
                         Next
                     </button>
-                </div>
-            </div>
-        </div>
-    );
+                </div> */}
+
+        <ul className="pagination justify-content-center">
+          <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/OtherInfo')}>
+              &lt;
+            </button>
+          </li>
+          <li className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>1</button>
+          </li>
+          <li className={`page-item ${currentPage === 2 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/Family')}>2</button>
+          </li>
+          <li className={`page-item ${currentPage === 3 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/Educational')}>3</button>
+          </li>
+          <li className={`page-item ${currentPage === 4 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/Eligibilty')}>4</button>
+          </li>
+          <li className={`page-item ${currentPage === 5 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/WorkExperience')}>5</button>
+          </li>
+          <li className={`page-item ${currentPage === 6 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/VoluntaryWork')}>6</button>
+          </li>
+          <li className={`page-item ${currentPage === 7 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/LearningDev')}>7</button>
+          </li>
+          <li className={`page-item ${currentPage === 8 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/OtherInfo')}>8</button>
+          </li>
+          <li className={`page-item ${currentPage === 9 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/RelationshipInfo')}>9</button>
+          </li>
+          <li className={`page-item ${currentPage === 10 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/References')}>10</button>
+          </li>
+          <li className={`page-item ${currentPage === 11 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/Declaration')}>11</button>
+          </li>
+          <li className="page-item">
+            <button className="page-link" onClick={() => handleNavigation('/References')}>
+              &gt;
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
 }
 
 export default RelationshipInfo;

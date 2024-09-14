@@ -5,6 +5,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 
 function Declaration() {
+    const [currentPage, setCurrentPage] = useState(11); 
+    const totalPages = 11; 
+
     const [formData, setFormData] = useState({
         personID: '',
         governmentId: { type: '', idNo: '', dateOfIssuance: '', placeOfIssuance: '' },
@@ -345,6 +348,56 @@ function Declaration() {
                         Submit
                     </button>
                 </div>
+
+                <div className="mb-4">
+            <nav>
+        <ul className="pagination justify-content-center">
+          <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/References')}>
+              &lt;
+            </button>   
+          </li>
+          <li className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>1</button>
+          </li>
+          <li className={`page-item ${currentPage === 2 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/Family')}>2</button>
+          </li>
+          <li className={`page-item ${currentPage === 3 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/Educational')}>3</button>
+          </li>
+          <li className={`page-item ${currentPage === 4 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/Eligibilty')}>4</button>
+          </li>
+          <li className={`page-item ${currentPage === 5 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/WorkExperience')}>5</button>
+          </li>
+          <li className={`page-item ${currentPage === 6 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/VoluntaryWork')}>6</button>
+          </li>
+          <li className={`page-item ${currentPage === 7 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/LearningDev')}>7</button>
+          </li>
+          <li className={`page-item ${currentPage === 8 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/OtherInfo')}>8</button>
+          </li>
+          <li className={`page-item ${currentPage === 9 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/RelationshipInfo')}>9</button>
+          </li>
+          <li className={`page-item ${currentPage === 10 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/References')}>10</button>
+          </li>
+          <li className={`page-item ${currentPage === 11 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/Declaration')}>11</button>
+          </li>
+           <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+            <button className="page-link"  onClick={() => handleNavigation('/NextPage')}>
+              &gt;
+            </button>
+          </li>
+        </ul>
+      </nav>
+            </div>
             </div>
         </div>
     );
