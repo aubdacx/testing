@@ -21,7 +21,6 @@ function Personalnfo() {
     });
   };
   
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form Data Submitted:', formData);
@@ -58,51 +57,16 @@ function Personalnfo() {
     }
   };
 
-  const handleNavigation = (page) => {
-    navigate(page);
-};
+  const [currentPage, setCurrentPage] = useState(1); 
+  const totalPages = 11; 
+
+const handleNavigation = (path) => {
+      navigate(path);
+    };
+
   return (
     <div className="container mt-5">
-      {/* Navigation Bar */}
-      <div className="mb-4">
-                <nav className="navbar navbar-expand navbar-light bg-light">
-                    <ul className="navbar-nav">
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>Page 1</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/Family')}>Page 2</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/Educational')}>Page 3</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/Eligibilty')}>Page 4</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/WorkExperience')}>Page 5</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/VoluntaryWork')}>Page 6</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/LearningDev')}>Page 7</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/OtherInfo')}>Page 8</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/RelationshipInfo')}>Page 9</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/References')}>Page 10</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/Declaration')}>Page 11</button>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+   
       {/* <p><i><b>CS Form No. 212
         <br/>Revised 2017</b></i></p> */}
    <h2 className="text-center"><b> PERSONAL DATA SHEET </b></h2>
@@ -561,9 +525,51 @@ function Personalnfo() {
                 />
               </div>
             </div>
-            <div className="d-flex justify-content-end">
-            <button  type="button"  className="btn btn-primary"  onClick={handleNextClick} >  Next </button>
-            </div>
+            <ul className="pagination justify-content-center">
+          <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>
+              &lt;
+            </button>
+          </li>
+          <li className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>1</button>
+          </li>
+          <li className={`page-item ${currentPage === 2 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/Family')}>2</button>
+          </li>
+          <li className={`page-item ${currentPage === 3 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/Educational')}>3</button>
+          </li>
+          <li className={`page-item ${currentPage === 4 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/Eligibilty')}>4</button>
+          </li>
+          <li className={`page-item ${currentPage === 5 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/WorkExperience')}>5</button>
+          </li>
+          <li className={`page-item ${currentPage === 6 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/VoluntaryWork')}>6</button>
+          </li>
+          <li className={`page-item ${currentPage === 7 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/LearningDev')}>7</button>
+          </li>
+          <li className={`page-item ${currentPage === 8 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/OtherInfo')}>8</button>
+          </li>
+          <li className={`page-item ${currentPage === 9 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/RelationshipInfo')}>9</button>
+          </li>
+          <li className={`page-item ${currentPage === 10 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/References')}>10</button>
+          </li>
+          <li className={`page-item ${currentPage === 11 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/Declaration')}>11</button>
+          </li>
+          <li className="page-item">
+            <button className="page-link"  onClick={() => handleNavigation('/Educational')}>
+              &gt;
+            </button>
+          </li>
+        </ul>
                     </form>
                   </div>
                 </div>

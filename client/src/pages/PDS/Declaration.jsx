@@ -4,6 +4,9 @@ import SignatureCanvas from 'react-signature-canvas';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Declaration() {
+    const [currentPage, setCurrentPage] = useState(11); 
+    const totalPages = 11; 
+
     const [formData, setFormData] = useState({
         govID: { idType: '', idNumber: '', datePlace: '' },
         signatureDate: '',
@@ -43,9 +46,9 @@ function Declaration() {
         }
     };
 
-    const handleNavigation = (page) => {
-        navigate(page);
-    };
+    // const handleNavigation = (page) => {
+    //     navigate(page);
+    // };
 
     const validateForm = () => {
         const { govID, signatureDate, photoUploaded, thumbmarkUploaded, swornDate, oathPerson } = formData;
@@ -70,48 +73,12 @@ function Declaration() {
         }
     };
 
+    const handleNavigation = (path) => {
+        navigate(path);
+      };
+
     return (
         <div className="container mt-4">
-            {/* Navigation Bar */}
-            <div className="mb-4">
-                <nav className="navbar navbar-expand navbar-light bg-light">
-                    <ul className="navbar-nav">
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>Page 1</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/Family')}>Page 2</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/Educational')}>Page 3</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/Eligibilty')}>Page 4</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/WorkExperience')}>Page 5</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/VoluntaryWork')}>Page 6</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/LearningDev')}>Page 7</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/OtherInfo')}>Page 8</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/RelationshipInfo')}>Page 9</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/References')}>Page 10</button>
-                        </li>
-                        <li className="nav-item">
-                            <button className="btn btn-link" onClick={() => handleNavigation('/Declaration')}>Page 11</button>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
 
             <div className="border p-4">
                 <label>
@@ -234,13 +201,61 @@ function Declaration() {
                 </div>
 
                 <div className="d-flex justify-content-end mt-3">
-                    <button type="button" className="btn btn-primary me-2" onClick={() => handleNavigation('/References')}>
-                        Previous
-                    </button>
+                
                     <button type="button" className="btn btn-success" onClick={handleSubmit}>
                         Submit
                     </button>
                 </div>
+
+                <div className="mb-4">
+            <nav>
+        <ul className="pagination justify-content-center">
+          <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/References')}>
+              &lt;
+            </button>   
+          </li>
+          <li className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>1</button>
+          </li>
+          <li className={`page-item ${currentPage === 2 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/Family')}>2</button>
+          </li>
+          <li className={`page-item ${currentPage === 3 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/Educational')}>3</button>
+          </li>
+          <li className={`page-item ${currentPage === 4 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/Eligibilty')}>4</button>
+          </li>
+          <li className={`page-item ${currentPage === 5 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/WorkExperience')}>5</button>
+          </li>
+          <li className={`page-item ${currentPage === 6 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/VoluntaryWork')}>6</button>
+          </li>
+          <li className={`page-item ${currentPage === 7 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/LearningDev')}>7</button>
+          </li>
+          <li className={`page-item ${currentPage === 8 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/OtherInfo')}>8</button>
+          </li>
+          <li className={`page-item ${currentPage === 9 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/RelationshipInfo')}>9</button>
+          </li>
+          <li className={`page-item ${currentPage === 10 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/References')}>10</button>
+          </li>
+          <li className={`page-item ${currentPage === 11 ? 'active' : ''}`}>
+            <button className="page-link" onClick={() => handleNavigation('/Declaration')}>11</button>
+          </li>
+           <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+            <button className="page-link"  onClick={() => handleNavigation('/NextPage')}>
+              &gt;
+            </button>
+          </li>
+        </ul>
+      </nav>
+            </div>
             </div>
         </div>
     );

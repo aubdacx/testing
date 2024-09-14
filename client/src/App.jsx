@@ -17,6 +17,7 @@ import Declaration from './pages/PDS/Declaration';
 import AddPosition from './pages/AddPosition';
 import ManageJob from './pages/ManageJob';
 import ViewApplicant from './pages/ViewApplicant';
+import DailyTimeRecord from './pages/DailyTimeRecord';
 import Login from './pages/Login';
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
         <Route path="/AddPosition" element={<AddPosition />} />
         <Route path="/ManageJob" element={<ManageJob />} />
         <Route path="/Applicant/:jobId" element={<ViewApplicant />} />
+        <Route path="/DailyTimeRecord" element={<DailyTimeRecord />} />
         <Route path="/Login" element={<Login />} />
       </Routes>
     </BrowserRouter>
