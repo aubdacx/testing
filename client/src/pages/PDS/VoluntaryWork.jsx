@@ -1,16 +1,20 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Ensure this import is correct
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Ensure this import is correct
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function VoluntaryWork() {
   const [formData, setFormData] = useState({
     voluntaryWork: [
       {
-        organizationName: '',
-        inclusiveDatesFrom: '',
-        inclusiveDatesTo: '',
-        numberOfHours: '',
-        position: '',
+        personId: "",
+        organizationName: "",
+        organizationAddress: "",
+        duration: {
+          from: "",
+          to: "",
+        },
+        numberOfHours: "",
+        positionOrNatureOfWork: "",
       },
     ],
   });
@@ -19,10 +23,26 @@ function VoluntaryWork() {
   const navigate = useNavigate();
 
   const handleVoluntaryWorkChange = (index, e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
+
     const updatedVoluntaryWork = [...formData.voluntaryWork];
-    updatedVoluntaryWork[index][name] = value;
-    setFormData({ ...formData, voluntaryWork: updatedVoluntaryWork });
+
+    if (name.startsWith("duration")) {
+      const key = name.split(".")[1];
+      updatedVoluntaryWork[index].duration = {
+        ...updatedVoluntaryWork[index].duration,
+        [key]: value,
+      };
+    } else if (type === "checkbox") {
+      updatedVoluntaryWork[index][name] = checked;
+    } else {
+      updatedVoluntaryWork[index][name] = value;
+    }
+
+    setFormData({
+      ...formData,
+      voluntaryWork: updatedVoluntaryWork,
+    });
   };
 
   const handleAddVoluntaryWork = () => {
@@ -31,11 +51,15 @@ function VoluntaryWork() {
       voluntaryWork: [
         ...formData.voluntaryWork,
         {
-          organizationName: '',
-          inclusiveDatesFrom: '',
-          inclusiveDatesTo: '',
-          numberOfHours: '',
-          position: '',
+          personId: "",
+          organizationName: "",
+          organizationAddress: "",
+          duration: {
+            from: "",
+            to: "",
+          },
+          numberOfHours: "",
+          positionOrNatureOfWork: "",
         },
       ],
     });
@@ -43,20 +67,12 @@ function VoluntaryWork() {
 
   // Ensure navigate function is used correctly
   const handleNextClick = () => {
-    // Add validation check here before navigating
-    const isValid = formData.voluntaryWork.every(work => 
-      work.organizationName && work.inclusiveDatesFrom && work.inclusiveDatesTo && work.numberOfHours && work.position
-    );
-    
-    if (isValid) {
-      navigate('/LearningDev'); // Ensure this route is correct
-    } else {
-      alert('Please complete all fields before proceeding.');
-    }
+    sessionStorage.setItem("VoluntaryWork", JSON.stringify(formData));
+    navigate("/LearningDev"); // Ensure this route is correct
   };
 
   const handlePreviousClick = () => {
-    navigate('/WorkExperience'); // Ensure this route is correct
+    navigate("/WorkExperience"); // Ensure this route is correct
   };
 
   const handleNavigation = (page) => {
@@ -105,14 +121,24 @@ function VoluntaryWork() {
                 </nav>
             </div>
       <div className="border p-4">
-        <h4><i>VI. VOLUNTARY WORK OR INVOLVEMENT IN CIVIC / NON-GOVERNMENT / PEOPLE / VOLUNTARY ORGANIZATION/S</i></h4>
+        <h4>
+          <i>
+            VI. VOLUNTARY WORK OR INVOLVEMENT IN CIVIC / NON-GOVERNMENT / PEOPLE
+            / VOLUNTARY ORGANIZATION/S
+          </i>
+        </h4>
         {formData.voluntaryWork.map((work, index) => (
           <div key={index} className="row mb-3">
             <div className="col-md-12">
-              <div className="border p-3 mb-3" style={{ borderRadius: '5px' }}>
+              <div className="border p-3 mb-3" style={{ borderRadius: "5px" }}>
                 <div className="row mb-3">
                   <div className="col-md-6 mb-3">
-                    <label htmlFor={`organizationName-${index}`} className="form-label">29. Name & Address of Organization</label>
+                    <label
+                      htmlFor={`organizationName-${index}`}
+                      className="form-label"
+                    >
+                      29. Name & Address of Organization
+                    </label>
                     <input
                       type="text"
                       id={`organizationName-${index}`}
@@ -120,35 +146,50 @@ function VoluntaryWork() {
                       name="organizationName"
                       value={work.organizationName}
                       onChange={(e) => handleVoluntaryWorkChange(index, e)}
-                      style={{ border: '1px solid #ced4da' }}
+                      style={{ border: "1px solid #ced4da" }}
                     />
                   </div>
                   <div className="col-md-2 mb-3">
-                    <label htmlFor={`inclusiveDatesFrom-${index}`} className="form-label">From</label>
+                    <label
+                      htmlFor={`inclusiveDatesFrom-${index}`}
+                      className="form-label"
+                    >
+                      From
+                    </label>
                     <input
                       type="date"
                       id={`inclusiveDatesFrom-${index}`}
                       className="form-control"
-                      name="inclusiveDatesFrom"
-                      value={work.inclusiveDatesFrom}
+                      name="duration.from"
+                      value={work.duration.from}
                       onChange={(e) => handleVoluntaryWorkChange(index, e)}
-                      style={{ border: '1px solid #ced4da' }}
+                      style={{ border: "1px solid #ced4da" }}
                     />
                   </div>
                   <div className="col-md-2 mb-3">
-                    <label htmlFor={`inclusiveDatesTo-${index}`} className="form-label">To</label>
+                    <label
+                      htmlFor={`inclusiveDatesTo-${index}`}
+                      className="form-label"
+                    >
+                      To
+                    </label>
                     <input
                       type="date"
                       id={`inclusiveDatesTo-${index}`}
                       className="form-control"
-                      name="inclusiveDatesTo"
-                      value={work.inclusiveDatesTo}
+                      name="duration.to"
+                      value={work.duration.to}
                       onChange={(e) => handleVoluntaryWorkChange(index, e)}
-                      style={{ border: '1px solid #ced4da' }}
+                      style={{ border: "1px solid #ced4da" }}
                     />
                   </div>
                   <div className="col-md-2 mb-3">
-                    <label htmlFor={`numberOfHours-${index}`} className="form-label">Number of Hours</label>
+                    <label
+                      htmlFor={`numberOfHours-${index}`}
+                      className="form-label"
+                    >
+                      Number of Hours
+                    </label>
                     <input
                       type="number"
                       id={`numberOfHours-${index}`}
@@ -156,21 +197,23 @@ function VoluntaryWork() {
                       name="numberOfHours"
                       value={work.numberOfHours}
                       onChange={(e) => handleVoluntaryWorkChange(index, e)}
-                      style={{ border: '1px solid #ced4da' }}
+                      style={{ border: "1px solid #ced4da" }}
                     />
                   </div>
                 </div>
                 <div className="row mb-3">
                   <div className="col-md-6 mb-3">
-                    <label htmlFor={`position-${index}`} className="form-label">Position / Nature of Work</label>
+                    <label htmlFor={`position-${index}`} className="form-label">
+                      Position / Nature of Work
+                    </label>
                     <input
                       type="text"
                       id={`position-${index}`}
                       className="form-control"
-                      name="position"
-                      value={work.position}
+                      name="positionOrNatureOfWork"
+                      value={work.positionOrNatureOfWork}
                       onChange={(e) => handleVoluntaryWorkChange(index, e)}
-                      style={{ border: '1px solid #ced4da' }}
+                      style={{ border: "1px solid #ced4da" }}
                     />
                   </div>
                 </div>
@@ -178,10 +221,28 @@ function VoluntaryWork() {
             </div>
           </div>
         ))}
-        <button type="button" className="btn btn-secondary" onClick={handleAddVoluntaryWork}>Add Voluntary Work</button>
-        <div className="d-flex justify-content-end">    
-          <button type="button" className="btn btn-primary me-2" onClick={handlePreviousClick}>Previous</button>
-          <button type="button" className="btn btn-primary" onClick={handleNextClick}>Next</button>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={handleAddVoluntaryWork}
+        >
+          Add Voluntary Work
+        </button>
+        <div className="d-flex justify-content-end">
+          <button
+            type="button"
+            className="btn btn-primary me-2"
+            onClick={handlePreviousClick}
+          >
+            Previous
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={handleNextClick}
+          >
+            Next
+          </button>
         </div>
       </div>
     </div>
