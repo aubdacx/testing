@@ -54,7 +54,7 @@ function Declaration() {
     };
 
     const getSignatureData = () => {
-        return sigCanvas.current?.toDataURL(); // Get signature as base64 image
+        return sigCanvas.current?.toDataURL(); 
     };
 
     const handleSubmit = async () => {
@@ -64,13 +64,10 @@ function Declaration() {
         }
     
         try {
-            // Retrieve the personalInfo from sessionStorage
             const personalInfo = JSON.parse(sessionStorage.getItem('personalInfo')) || {};
         
-            // Post personalInfo to the server
             const res = await axios.post('http://localhost:3000/api/pds/personal-info', personalInfo);
             
-            // Extract the personId from the response
             const personId = res.data.personId;
             console.log('Response Data:', res.data);
             console.log('Person ID:', personId);
@@ -79,10 +76,8 @@ function Declaration() {
                 throw new Error('Person ID is not available');
             }
             
-            // Update sessionStorage with personId
             sessionStorage.setItem("personId", JSON.stringify(personId));
     
-            // Define endpoints and keys for section data
             const sections = [
                 'FamilyBG',
                 'EducationalBG',
@@ -95,14 +90,12 @@ function Declaration() {
                 'References'
             ];
         
-            // Update each section with personId and save back to session storage
             sections.forEach(key => {
                 const sectionData = JSON.parse(sessionStorage.getItem(key)) || {};
                 const updatedSectionData = { ...sectionData, personId };
                 sessionStorage.setItem(key, JSON.stringify(updatedSectionData));
             });
         
-            // Define endpoints for each section
             const endpoints = [
                 '/family-background',
                 '/educational-background',
@@ -115,25 +108,21 @@ function Declaration() {
                 '/references'
             ];
         
-            // Send POST requests for each endpoint
             for (const [index, url] of endpoints.entries()) {
                 const sectionKey = sections[index];
                 const sectionData = JSON.parse(sessionStorage.getItem(sectionKey)) || {};
                 try {
                     await axios.post(`http://localhost:3000/api/pds${url}`, sectionData);
                 } catch (err) {
-                    // Handle individual request errors
                     console.error(`Error posting ${sectionKey}:`, err.response ? err.response.data : err.message);
                     alert(`Failed to submit ${sectionKey}. Error: ${err.response ? err.response.data.error : err.message}`);
-                    return; // Stop further execution on error
+                    return; 
                 }
             }
         
-            // Update personalInfo with personId and save back to session storage
             const updatedPersonalInfo = { ...personalInfo, personId };
             sessionStorage.setItem('personalInfo', JSON.stringify(updatedPersonalInfo));
         
-            // Validate and handle form submission
             if (validateForm({ ...formData, personalInfo: updatedPersonalInfo })) {
                 console.log({ ...formData, personalInfo: updatedPersonalInfo });
                 alert('Form submitted successfully!');
