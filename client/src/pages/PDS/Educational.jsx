@@ -7,7 +7,7 @@ function Educational() {
   const totalPages = 11;
   const [formData, setFormData] = useState({
     personId: "",
-    education: [  // Initialize education as an array
+    education: [  
       {
         level: "",
         schoolName: "",
@@ -27,7 +27,6 @@ function Educational() {
     const { name, value } = e.target;
     const newEducation = [...formData.education];
 
-    // Check if the field is a nested field
     if (name.startsWith('periodOfAttendance')) {
       const key = name.split('.')[1];
       newEducation[index].periodOfAttendance = {
@@ -35,7 +34,6 @@ function Educational() {
         [key]: value,
       };
     } else {
-      // Handle other fields
       newEducation[index][name] = value;
     }
 
