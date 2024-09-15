@@ -66,25 +66,21 @@ function VoluntaryWork() {
   };
 
   // Ensure navigate function is used correctly
-  const handleNextClick = () => {
+  const SaveToSession = () => {
     sessionStorage.setItem("VoluntaryWork", JSON.stringify(formData));
-    navigate("/LearningDev"); // Ensure this route is correct
   };
 
-  const handlePreviousClick = () => {
-    navigate("/WorkExperience"); // Ensure this route is correct
-  };
-
-  const [currentPage, setCurrentPage] = useState(6); 
-    const totalPages = 11; 
+  const [currentPage, setCurrentPage] = useState(6);
+  const totalPages = 11;
 
   const handleNavigation = (path) => {
-        navigate(path);
-      };
+    SaveToSession()
+    navigate(path);
+  };
 
   return (
     <div className="container mt-4">
-    
+
       <div className="border p-4">
         <h4>
           <i>
@@ -194,7 +190,7 @@ function VoluntaryWork() {
             </button>
           </li>
           <li className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>1</button>
+            <button className="page-link" onClick={() => handleNavigation('/PersonalInfo')}>1</button>
           </li>
           <li className={`page-item ${currentPage === 2 ? 'active' : ''}`}>
             <button className="page-link" onClick={() => handleNavigation('/Family')}>2</button>
@@ -203,7 +199,7 @@ function VoluntaryWork() {
             <button className="page-link" onClick={() => handleNavigation('/Educational')}>3</button>
           </li>
           <li className={`page-item ${currentPage === 4 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/Eligibilty')}>4</button>
+            <button className="page-link" onClick={() => handleNavigation('/Eligibility')}>4</button>
           </li>
           <li className={`page-item ${currentPage === 5 ? 'active' : ''}`}>
             <button className="page-link" onClick={() => handleNavigation('/WorkExperience')}>5</button>
@@ -227,7 +223,7 @@ function VoluntaryWork() {
             <button className="page-link" onClick={() => handleNavigation('/Declaration')}>11</button>
           </li>
           <li className="page-item">
-            <button className="page-link"  onClick={() => handleNavigation('/LearningDev')}>
+            <button className="page-link" onClick={() => handleNavigation('/LearningDev')}>
               &gt;
             </button>
           </li>

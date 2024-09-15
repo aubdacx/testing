@@ -40,44 +40,36 @@ function Eligibility() {
     });
   };
 
-  const validateForm = () => {
-    for (const eligibility of formData.civilServiceEligibility) {
-      if (
-        !eligibility.careerService ||
-        !eligibility.rating ||
-        !eligibility.dateOfExamination ||
-        !eligibility.placeOfExamination ||
-        !eligibility.licenseNumber ||
-        !eligibility.dateOfValidity
-      ) {
-        return false;
-      }
-    }
-    return true;
-  };
+  // const validateForm = () => {
+  //   for (const eligibility of formData.civilServiceEligibility) {
+  //     if (
+  //       !eligibility.careerService ||
+  //       !eligibility.rating ||
+  //       !eligibility.dateOfExamination ||
+  //       !eligibility.placeOfExamination ||
+  //       !eligibility.licenseNumber ||
+  //       !eligibility.dateOfValidity
+  //     ) {
+  //       return false;
+  //     }
+  //   }
+  //   return true;
+  // };
 
   const navigate = useNavigate();
 
-  const handleNextClick = () => {
+  const SaveToSession = () => {
     sessionStorage.setItem("Eligibility", JSON.stringify(formData));
-      navigate('/WorkExperience'); // Ensure the path is correct
-    // if (validateForm()) {
-      
-    // } else {
-    //   alert('Please fill in all required fields for each eligibility entry.');
-    // }
   };
 
-  const handlePreviousClick = () => {
-    navigate('/Educational'); // Ensure the path is correct
+
+  const [currentPage, setCurrentPage] = useState(4);
+  const totalPages = 11;
+
+  const handleNavigation = (path) => {
+    SaveToSession()
+    navigate(path);
   };
-
-  const [currentPage, setCurrentPage] = useState(4); 
-  const totalPages = 11; 
-
-const handleNavigation = (path) => {
-      navigate(path);
-    };
 
   return (
     <div className="container mt-4">
@@ -162,7 +154,7 @@ const handleNavigation = (path) => {
             </button>
           </li>
           <li className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>1</button>
+            <button className="page-link" onClick={() => handleNavigation('/PersonalInfo')}>1</button>
           </li>
           <li className={`page-item ${currentPage === 2 ? 'active' : ''}`}>
             <button className="page-link" onClick={() => handleNavigation('/Family')}>2</button>
@@ -171,7 +163,7 @@ const handleNavigation = (path) => {
             <button className="page-link" onClick={() => handleNavigation('/Educational')}>3</button>
           </li>
           <li className={`page-item ${currentPage === 4 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/Eligibilty')}>4</button>
+            <button className="page-link" onClick={() => handleNavigation('/Eligibility')}>4</button>
           </li>
           <li className={`page-item ${currentPage === 5 ? 'active' : ''}`}>
             <button className="page-link" onClick={() => handleNavigation('/WorkExperience')}>5</button>
@@ -195,7 +187,7 @@ const handleNavigation = (path) => {
             <button className="page-link" onClick={() => handleNavigation('/Declaration')}>11</button>
           </li>
           <li className="page-item">
-            <button className="page-link"  onClick={() => handleNavigation('/WorkExperience')}>
+            <button className="page-link" onClick={() => handleNavigation('/WorkExperience')}>
               &gt;
             </button>
           </li>

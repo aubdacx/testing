@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Family() {
+  const [currentPage, setCurrentPage] = useState(2);
+  const totalPages = 11;
   const [formData, setFormData] = useState({
     personId: "",
     spouse: {
@@ -95,24 +97,17 @@ function Family() {
 
   const navigate = useNavigate();
 
-  const handleNextClick = () => {
+  const SaveToSession = () => {
     sessionStorage.setItem("FamilyBG", JSON.stringify(formData));
-    navigate("/Educational");
   };
-
-  const handlePreviousClick = () => {
-    navigate("/PersonalInfo");
-  };
-
-  const [currentPage, setCurrentPage] = useState(2); 
-    const totalPages = 11; 
 
   const handleNavigation = (path) => {
+    SaveToSession();
     navigate(path);
-};
+  };
   return (
     <div className="container mt-5">
-       
+
       <div className="border p-4">
         <h4>
           <i>II. FAMILY BACKGROUND</i>
@@ -329,12 +324,12 @@ function Family() {
         </div>
         <ul className="pagination justify-content-center">
           <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>
+            <button className="page-link" onClick={() => handleNavigation('/PersonalInfo')}>
               &lt;
             </button>
           </li>
           <li className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>1</button>
+            <button className="page-link" onClick={() => handleNavigation('/PersonalInfo')}>1</button>
           </li>
           <li className={`page-item ${currentPage === 2 ? 'active' : ''}`}>
             <button className="page-link" onClick={() => handleNavigation('/Family')}>2</button>
@@ -343,7 +338,7 @@ function Family() {
             <button className="page-link" onClick={() => handleNavigation('/Educational')}>3</button>
           </li>
           <li className={`page-item ${currentPage === 4 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/Eligibilty')}>4</button>
+            <button className="page-link" onClick={() => handleNavigation('/Eligibility')}>4</button>
           </li>
           <li className={`page-item ${currentPage === 5 ? 'active' : ''}`}>
             <button className="page-link" onClick={() => handleNavigation('/WorkExperience')}>5</button>
@@ -367,7 +362,7 @@ function Family() {
             <button className="page-link" onClick={() => handleNavigation('/Declaration')}>11</button>
           </li>
           <li className="page-item">
-            <button className="page-link"  onClick={() => handleNavigation('/Educational')}>
+            <button className="page-link" onClick={() => handleNavigation('/Educational')}>
               &gt;
             </button>
           </li>

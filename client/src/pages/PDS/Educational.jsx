@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Educational() {
+  const [currentPage, setCurrentPage] = useState(3);
+  const totalPages = 11;
   const [formData, setFormData] = useState({
     personId: "",
     education: [  // Initialize education as an array
@@ -45,25 +47,19 @@ function Educational() {
 
   const navigate = useNavigate();
 
-  const handleNextClick = () => {
+  const SaveToSession = () => {
     sessionStorage.setItem("EducationalBG", JSON.stringify(formData));
-    navigate('/Eligibility');
   };
 
-  const handlePreviousClick = () => {
-    navigate('/Family'); // Ensure the path is correct
-  };
-
-  const [currentPage, setCurrentPage] = useState(3); 
-    const totalPages = 11; 
 
   const handleNavigation = (path) => {
-        navigate(path);
-      };
+    SaveToSession()
+    navigate(path);
+  };
 
   return (
     <div className="container mt-4">
-      
+
       <div className="border p-4">
         <h4><i>III. EDUCATIONAL BACKGROUND</i></h4>
         {formData.education.map((education, index) => (
@@ -167,7 +163,7 @@ function Educational() {
             </button>
           </li>
           <li className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>1</button>
+            <button className="page-link" onClick={() => handleNavigation('/PersonalInfo')}>1</button>
           </li>
           <li className={`page-item ${currentPage === 2 ? 'active' : ''}`}>
             <button className="page-link" onClick={() => handleNavigation('/Family')}>2</button>
@@ -176,7 +172,7 @@ function Educational() {
             <button className="page-link" onClick={() => handleNavigation('/Educational')}>3</button>
           </li>
           <li className={`page-item ${currentPage === 4 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/Eligibilty')}>4</button>
+            <button className="page-link" onClick={() => handleNavigation('/Eligibility')}>4</button>
           </li>
           <li className={`page-item ${currentPage === 5 ? 'active' : ''}`}>
             <button className="page-link" onClick={() => handleNavigation('/WorkExperience')}>5</button>
@@ -200,7 +196,7 @@ function Educational() {
             <button className="page-link" onClick={() => handleNavigation('/Declaration')}>11</button>
           </li>
           <li className="page-item">
-            <button className="page-link"  onClick={() => handleNavigation('/Eligibilty')}>
+            <button className="page-link" onClick={() => handleNavigation('/Eligibility')}>
               &gt;
             </button>
           </li>

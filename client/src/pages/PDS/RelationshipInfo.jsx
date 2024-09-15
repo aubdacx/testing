@@ -29,11 +29,8 @@ function RelationshipInfo() {
     }));
   };
 
-  const handlePreviousClick = () => {
-    navigate('/OtherInfo');
-  };
 
-  const handleNextClick = () => {
+  const SaveToSession = () => {
     let isFormValid = true;
 
     // Check if each section should be validated based on user responses
@@ -105,20 +102,16 @@ function RelationshipInfo() {
 
     if (isFormValid) {
       sessionStorage.setItem("RelationshipInfo", JSON.stringify(formData));
-      navigate('/References');
     } else {
       alert('Please fill out all applicable fields before proceeding.');
     }
   };
 
-  //   const handleNavigation = (page) => {
-  //     navigate(page);
-  // };
-
   const [currentPage, setCurrentPage] = useState(9);
   const totalPages = 11;
 
   const handleNavigation = (path) => {
+    SaveToSession()
     navigate(path);
   };
 
@@ -126,7 +119,7 @@ function RelationshipInfo() {
     <div className="container mt-4">
 
       <div className="border p-4">
-        {/* <h4 className="mt-4"><i>VIII. OTHER INFORMATION</i></h4> */}
+        <h4 className="mt-4"><i>VIII. LEGAL INFORMATION </i></h4>
 
         <label>34. Are you related by consanguinity or affinity to the appointing or recommending authority, or to the
           chief of bureau or office or to the person who has immediate supervision over you in the Office,
@@ -359,14 +352,6 @@ function RelationshipInfo() {
             />
           )}
         </div>
-        {/* <div className="d-flex justify-content-end mt-3">
-                    <button type="button" className="btn btn-primary me-2" onClick={handlePreviousClick}>
-                        Previous
-                    </button>
-                    <button type="button" className="btn btn-primary" onClick={handleNextClick}>
-                        Next
-                    </button>
-                </div> */}
 
         <ul className="pagination justify-content-center">
           <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
@@ -375,7 +360,7 @@ function RelationshipInfo() {
             </button>
           </li>
           <li className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>1</button>
+            <button className="page-link" onClick={() => handleNavigation('/PersonalInfo')}>1</button>
           </li>
           <li className={`page-item ${currentPage === 2 ? 'active' : ''}`}>
             <button className="page-link" onClick={() => handleNavigation('/Family')}>2</button>
@@ -384,7 +369,7 @@ function RelationshipInfo() {
             <button className="page-link" onClick={() => handleNavigation('/Educational')}>3</button>
           </li>
           <li className={`page-item ${currentPage === 4 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/Eligibilty')}>4</button>
+            <button className="page-link" onClick={() => handleNavigation('/Eligibility')}>4</button>
           </li>
           <li className={`page-item ${currentPage === 5 ? 'active' : ''}`}>
             <button className="page-link" onClick={() => handleNavigation('/WorkExperience')}>5</button>

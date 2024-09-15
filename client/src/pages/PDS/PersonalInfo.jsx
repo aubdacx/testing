@@ -56,11 +56,6 @@ function Personalnfo() {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form Data Submitted:', formData);
-  };
-
   const sigCanvas = useRef(null);
 
   const handleClear = () => {
@@ -70,7 +65,7 @@ function Personalnfo() {
 
 
   const navigate = useNavigate();
-  const handleNextClick = () => {
+  const SaveToSession = () => {
     console.log(formData);
     const requiredFields = [
       "surname",
@@ -99,19 +94,13 @@ function Personalnfo() {
       "barangay",
     ];
     sessionStorage.setItem("personalInfo", JSON.stringify(formData));
-    navigate("/Family");
-    // if (allFieldsFilled) {
-    // } else {
-    //   alert(
-    //     "Please fill out all required fields and provide a signature before proceeding."
-    //   );
-    // }
   };
 
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 11;
 
   const handleNavigation = (path) => {
+    SaveToSession();
     navigate(path);
   };
 
@@ -592,12 +581,12 @@ function Personalnfo() {
       </div>
       <ul className="pagination justify-content-center">
         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-          <button className="page-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>
+          <button className="page-link" onClick={() => handleNavigation('/PersonalInfo')}>
             &lt;
           </button>
         </li>
         <li className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
-          <button className="page-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>1</button>
+          <button className="page-link" onClick={() => handleNavigation('/PersonalInfo')}>1</button>
         </li>
         <li className={`page-item ${currentPage === 2 ? 'active' : ''}`}>
           <button className="page-link" onClick={() => handleNavigation('/Family')}>2</button>
@@ -606,7 +595,7 @@ function Personalnfo() {
           <button className="page-link" onClick={() => handleNavigation('/Educational')}>3</button>
         </li>
         <li className={`page-item ${currentPage === 4 ? 'active' : ''}`}>
-          <button className="page-link" onClick={() => handleNavigation('/Eligibilty')}>4</button>
+          <button className="page-link" onClick={() => handleNavigation('/Eligibility')}>4</button>
         </li>
         <li className={`page-item ${currentPage === 5 ? 'active' : ''}`}>
           <button className="page-link" onClick={() => handleNavigation('/WorkExperience')}>5</button>
