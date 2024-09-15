@@ -55,11 +55,11 @@ function Personalnfo() {
       [name]: value,
     });
   };
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form Data Submitted:', formData);
-  };  
+  };
 
   const sigCanvas = useRef(null);
 
@@ -108,20 +108,20 @@ function Personalnfo() {
     // }
   };
 
-  const [currentPage, setCurrentPage] = useState(1); 
-  const totalPages = 11; 
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = 11;
 
-const handleNavigation = (path) => {
-      navigate(path);
-    };
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
 
   return (
     <div className="container mt-5">
-   
+
       {/* <p><i><b>CS Form No. 212
         <br/>Revised 2017</b></i></p> */}
-   <h2 className="text-center"><b> PERSONAL DATA SHEET </b></h2>
-      {/* <p> <b> <i> WARNING: Any misrepresentation made in the Personal Data Sheet and the Work Experience 
+      <h2 className="text-center"><b> PERSONAL DATA SHEET </b></h2>
+      <p> <b> <i> WARNING: Any misrepresentation made in the Personal Data Sheet and the Work Experience 
         Sheet shall cause the filling of admistrative/criminal case/s against the person concerned.
         <br/> READ THE ATTACHED GUIDE TO FILLING OUT THE PERSONAL DATA SHEET (PDS) BEFORE ACCOMPLISING THE PDS FORM. </i></b> </p>
    
@@ -556,88 +556,87 @@ const handleNavigation = (path) => {
           </div>
           
             {/* Signature and Date */}
-            <div className="row mt-4">
-              <div className="col-md-6 mb-4">
-                <label className="form-label">Signature</label>
-                <div className="border border-secondary rounded p-2">
-                  <SignatureCanvas
-                    ref={sigCanvas}
-                    penColor="black"
-                    canvasProps={{
-                      width: 500,
-                      height: 80,
-                      className: 'signature-canvas'
-                    }}
-                    onEnd={handleSignatureEnd}
-                  />
-                </div>
-                <button
-                  type="button"
-                  className="btn btn-danger mt-2"
-                  onClick={handleClear}
-                >
-                  Clear Signature
-                </button>
-              </div>
-              <div className="col-md-6 mb-4">
-                <label className="form-label">Date</label>
-                <input
-                  type="date"
-                  className="form-control"
-                  name="date"
-                  value={formData.date}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-            <ul className="pagination justify-content-center">
-          <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>
-              &lt;
-            </button>
-          </li>
-          <li className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>1</button>
-          </li>
-          <li className={`page-item ${currentPage === 2 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/Family')}>2</button>
-          </li>
-          <li className={`page-item ${currentPage === 3 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/Educational')}>3</button>
-          </li>
-          <li className={`page-item ${currentPage === 4 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/Eligibilty')}>4</button>
-          </li>
-          <li className={`page-item ${currentPage === 5 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/WorkExperience')}>5</button>
-          </li>
-          <li className={`page-item ${currentPage === 6 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/VoluntaryWork')}>6</button>
-          </li>
-          <li className={`page-item ${currentPage === 7 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/LearningDev')}>7</button>
-          </li>
-          <li className={`page-item ${currentPage === 8 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/OtherInfo')}>8</button>
-          </li>
-          <li className={`page-item ${currentPage === 9 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/RelationshipInfo')}>9</button>
-          </li>
-          <li className={`page-item ${currentPage === 10 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/References')}>10</button>
-          </li>
-          <li className={`page-item ${currentPage === 11 ? 'active' : ''}`}>
-            <button className="page-link" onClick={() => handleNavigation('/Declaration')}>11</button>
-          </li>
-          <li className="page-item">
-            <button className="page-link"  onClick={() => handleNavigation('/Educational')}>
-              &gt;
-            </button>
-          </li>
-        </ul>
-                    </form>
-                  </div>
-                </div>
-              );
-            }
+      <div className="row mt-4">
+        <div className="col-md-6 mb-4">
+          <label className="form-label">Signature</label>
+          <div className="border border-secondary rounded p-2">
+            <SignatureCanvas
+              ref={sigCanvas}
+              penColor="black"
+              canvasProps={{
+                width: 500,
+                height: 80,
+                className: 'signature-canvas'
+              }}
+              // onEnd={handleSignatureEnd}
+            />
+          </div>
+          <button
+            type="button"
+            className="btn btn-danger mt-2"
+            onClick={handleClear}
+          >
+            Clear Signature
+          </button>
+        </div>
+        <div className="col-md-6 mb-4">
+          <label className="form-label">Date</label>
+          <input
+            type="date"
+            className="form-control"
+            name="date"
+            value={formData.date}
+            onChange={handleChange}
+          />
+        </div>
+      </div>
+      <ul className="pagination justify-content-center">
+        <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+          <button className="page-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>
+            &lt;
+          </button>
+        </li>
+        <li className={`page-item ${currentPage === 1 ? 'active' : ''}`}>
+          <button className="page-link" onClick={() => handleNavigation('/Personalnfo/:applicantId')}>1</button>
+        </li>
+        <li className={`page-item ${currentPage === 2 ? 'active' : ''}`}>
+          <button className="page-link" onClick={() => handleNavigation('/Family')}>2</button>
+        </li>
+        <li className={`page-item ${currentPage === 3 ? 'active' : ''}`}>
+          <button className="page-link" onClick={() => handleNavigation('/Educational')}>3</button>
+        </li>
+        <li className={`page-item ${currentPage === 4 ? 'active' : ''}`}>
+          <button className="page-link" onClick={() => handleNavigation('/Eligibilty')}>4</button>
+        </li>
+        <li className={`page-item ${currentPage === 5 ? 'active' : ''}`}>
+          <button className="page-link" onClick={() => handleNavigation('/WorkExperience')}>5</button>
+        </li>
+        <li className={`page-item ${currentPage === 6 ? 'active' : ''}`}>
+          <button className="page-link" onClick={() => handleNavigation('/VoluntaryWork')}>6</button>
+        </li>
+        <li className={`page-item ${currentPage === 7 ? 'active' : ''}`}>
+          <button className="page-link" onClick={() => handleNavigation('/LearningDev')}>7</button>
+        </li>
+        <li className={`page-item ${currentPage === 8 ? 'active' : ''}`}>
+          <button className="page-link" onClick={() => handleNavigation('/OtherInfo')}>8</button>
+        </li>
+        <li className={`page-item ${currentPage === 9 ? 'active' : ''}`}>
+          <button className="page-link" onClick={() => handleNavigation('/RelationshipInfo')}>9</button>
+        </li>
+        <li className={`page-item ${currentPage === 10 ? 'active' : ''}`}>
+          <button className="page-link" onClick={() => handleNavigation('/References')}>10</button>
+        </li>
+        <li className={`page-item ${currentPage === 11 ? 'active' : ''}`}>
+          <button className="page-link" onClick={() => handleNavigation('/Declaration')}>11</button>
+        </li>
+        <li className="page-item">
+          <button className="page-link" onClick={() => handleNavigation('/Educational')}>
+            &gt;
+          </button>
+        </li>
+      </ul>
+      </div>
+    </div>
+  );
+}
 export default Personalnfo;
